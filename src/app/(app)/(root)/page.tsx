@@ -14,9 +14,6 @@ import { stackServerApp } from "@/stack";
 const title = "Ardemy";
 const description = "";
 
-export const dynamic = "force-static";
-export const revalidate = false;
-
 export const metadata: Metadata = {
 	title,
 	description,

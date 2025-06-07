@@ -13,9 +13,6 @@ export async function SiteHeader() {
 	const app = stackServerApp.urls;
 	const userProfile = await getUserDetails(user?.id);
 
-	console.log("user", user);
-	console.log("userProfile", userProfile);
-
 	return (
 		<header className="bg-background sticky top-0 z-50 w-full">
 			<div className="container-wrapper 3xl:fixed:px-0 px-6">
@@ -42,7 +39,7 @@ export async function SiteHeader() {
 								)}
 								<Link
 									href={app.signOut}
-									className="bg-gray-50 px-1 underline text-[11px]  hover:no-underline"
+									className="px-1 underline text-[11px] hover:no-underline"
 								>
 									Sign Out
 								</Link>
