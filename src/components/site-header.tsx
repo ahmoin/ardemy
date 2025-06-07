@@ -16,8 +16,9 @@ export async function SiteHeader() {
 	return (
 		<header className="bg-background sticky top-0 z-50 w-full">
 			<div className="container-wrapper 3xl:fixed:px-0 px-6">
-				<div className="3xl:fixed:container flex h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
-					{/* <Button
+				<div className="3xl:fixed:container flex justify-end h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
+					{/* TODO: add logo
+                    <Button
 						asChild
 						variant="ghost"
 						size="icon"
@@ -56,14 +57,15 @@ export async function SiteHeader() {
 					) : (
 						<div className="flex items-center gap-3">
 							<Button asChild>
-								<Link href={app.signIn}>Log In</Link>
+								<Link href={app.signUp}>Start your project</Link>
 							</Button>
-							<Button variant="outline" asChild>
-								<Link href={app.signUp}>Sign Up</Link>
+							<Button asChild variant="outline">
+								<Link href={app.signIn}>Sign In</Link>
 							</Button>
 						</div>
 					)}
-					<div className="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
+					<div className="ml-4 flex items-center gap-2">
+						<Separator orientation="vertical" />
 						<GitHubLink />
 						<Separator orientation="vertical" className="3xl:flex hidden" />
 						<SiteConfig className="3xl:flex hidden" />

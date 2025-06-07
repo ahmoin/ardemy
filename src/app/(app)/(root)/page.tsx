@@ -9,6 +9,7 @@ import {
 	PageHeaderHeading,
 } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
+import { stackServerApp } from "@/stack";
 
 const title = "Ardemy";
 const description = "";
@@ -41,6 +42,8 @@ export const metadata: Metadata = {
 };
 
 export default function IndexPage() {
+	const app = stackServerApp.urls;
+
 	return (
 		<div className="flex flex-1 flex-col">
 			<PageHeader>
@@ -48,12 +51,12 @@ export default function IndexPage() {
 				<PageHeaderHeading>{title}</PageHeaderHeading>
 				<PageHeaderDescription>{description}</PageHeaderDescription>
 				<PageActions>
-					<Button asChild size="sm">
-						<Link href="/sign-in">Get Started</Link>
+					<Button asChild size="lg">
+						<Link href={app.signUp}>Start your project</Link>
 					</Button>
-					{/* <Button asChild size="sm" variant="ghost">
-						<Link href="/blocks">Browse Blocks</Link>
-					</Button> */}
+					<Button asChild size="lg" variant="outline">
+						<Link href={app.signIn}>Sign In</Link>
+					</Button>
 				</PageActions>
 			</PageHeader>
 			{/* TODO: add index page illustration
