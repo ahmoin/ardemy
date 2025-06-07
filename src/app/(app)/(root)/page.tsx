@@ -10,9 +10,8 @@ import {
 } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 
-const title = "Build your Component Library";
-const description =
-	"A set of beautifully-designed, accessible components and a code distribution platform. Works with your favorite frameworks. Open Source. Open Code.";
+const title = "Ardemy";
+const description = "";
 
 export const dynamic = "force-static";
 export const revalidate = false;
