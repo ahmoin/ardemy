@@ -30,7 +30,9 @@ export async function StarsCount() {
 		<span
 			className={cn(
 				"text-muted-foreground text-xs tabular-nums w-8",
-				json.stargazers_count === 0 ? "sm:w-40 text-yellow-400" : "",
+				json.stargazers_count === 0
+					? "sm:w-40 text-yellow-500 dark:text-yellow-400"
+					: "",
 			)}
 		>
 			{json.stargazers_count >= 1000
