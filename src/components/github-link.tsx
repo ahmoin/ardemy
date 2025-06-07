@@ -4,6 +4,7 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { siteConfig } from "@/lib/config";
+import { cn } from "@/lib/utils";
 
 export function GitHubLink() {
 	return (
@@ -18,6 +19,7 @@ export function GitHubLink() {
 	);
 }
 
+// TODO: remove/change this once 1 star is reached
 export async function StarsCount() {
 	const data = await fetch("https://api.github.com/repos/ahmoin/ardemy", {
 		next: { revalidate: 86400 },
@@ -25,10 +27,20 @@ export async function StarsCount() {
 	const json = await data.json();
 
 	return (
-		<span className="text-muted-foreground w-8 text-xs tabular-nums">
+		<span
+			className={cn(
+				"text-muted-foreground text-xs tabular-nums w-8",
+				json.stargazers_count === 0 ? "sm:w-40 text-yellow-400" : "",
+			)}
+		>
 			{json.stargazers_count >= 1000
 				? `${(json.stargazers_count / 1000).toFixed(1)}k`
-				: json.stargazers_count.toLocaleString()}
+				: json.stargazers_count.toLocaleString()}{" "}
+			{json.stargazers_count === 0 ? (
+				<span className="font-serif italic hidden sm:inline">
+					–Become the first stargazer
+				</span>
+			) : null}
 		</span>
 	);
 }
