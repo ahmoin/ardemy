@@ -39,11 +39,12 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function IndexPage() {
+export default async function IndexPage() {
+	const user = await stackServerApp.getUser();
 	const app = stackServerApp.urls;
 
-	return (
-		<div className="flex flex-1 flex-col">
+	return user ? null : (
+		<div className="flex flex-1 flex-col -mb-4">
 			<PageHeader>
 				<Announcement />
 				<PageHeaderHeading>
