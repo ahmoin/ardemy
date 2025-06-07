@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 	},
 	metadataBase: new URL(siteConfig.url),
 	description: siteConfig.description,
-	keywords: ["Next.js", "React", "Tailwind CSS"],
+	keywords: ["AI-Powered", "Free", "Academic", "Essay Writer", "Productivity"],
 	authors: [
 		{
 			name: "ahmoin",

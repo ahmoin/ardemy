@@ -11,8 +11,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { stackServerApp } from "@/stack";
 
-const title = "Ardemy";
-const description = "";
+const title = "Streamline your AI-Powered Writing";
+const description =
+	"Tell more engaging stories and write more genuine essays through Ardemy's easy-to-use, adaptive toolkit powered by AI.";
 
 export const metadata: Metadata = {
 	title,
@@ -45,7 +46,11 @@ export default function IndexPage() {
 		<div className="flex flex-1 flex-col">
 			<PageHeader>
 				<Announcement />
-				<PageHeaderHeading>{title}</PageHeaderHeading>
+				<PageHeaderHeading>
+					Streamline your
+					<br />
+					AI-Powered Writing
+				</PageHeaderHeading>
 				<PageHeaderDescription>{description}</PageHeaderDescription>
 				<PageActions>
 					<Button asChild size="lg">

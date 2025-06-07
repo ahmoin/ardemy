@@ -1,8 +1,9 @@
 export const siteConfig = {
-	name: "ardemy",
+	name: "Ardemy",
 	url: "https://ardemy.com",
 	ogImage: "https://ardemy.com/oopengraph-image.png",
-	description: "",
+	description:
+		"Tell more engaging stories and write more genuine essays through Ardemy's easy-to-use, adaptive toolkit powered by AI.",
 	links: {
 		github: "https://github.com/ahmoin",
 	},
