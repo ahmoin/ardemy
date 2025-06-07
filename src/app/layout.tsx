@@ -1,5 +1,5 @@
+import { StackProvider, StackTheme } from "@stackframe/stack";
 import type { Metadata } from "next";
-
 import { ActiveThemeProvider } from "@/components/active-theme";
 import { Analytics } from "@/components/analytics";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
@@ -11,6 +11,7 @@ import { fontVariables } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
 import "@/styles/globals.css";
+import { stackServerApp } from "@/stack";
 
 // TODO: complete metadata
 export const metadata: Metadata = {
@@ -90,16 +91,20 @@ export default function RootLayout({
 					fontVariables,
 				)}
 			>
-				<ThemeProvider>
-					<LayoutProvider>
-						<ActiveThemeProvider>
-							{children}
-							<TailwindIndicator />
-							<Toaster position="top-center" />
-							<Analytics />
-						</ActiveThemeProvider>
-					</LayoutProvider>
-				</ThemeProvider>
+				<StackProvider app={stackServerApp}>
+					<StackTheme>
+						<ThemeProvider>
+							<LayoutProvider>
+								<ActiveThemeProvider>
+									{children}
+									<TailwindIndicator />
+									<Toaster position="top-center" />
+									<Analytics />
+								</ActiveThemeProvider>
+							</LayoutProvider>
+						</ThemeProvider>
+					</StackTheme>
+				</StackProvider>
 			</body>
 		</html>
 	);
