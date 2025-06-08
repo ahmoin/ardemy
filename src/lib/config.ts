@@ -3,7 +3,7 @@ export const siteConfig = {
 	url: "https://ardemy.com",
 	ogImage: "https://ardemy.com/oopengraph-image.png",
 	description:
-		"Tell more engaging stories and write more genuine essays through Ardemy's easy-to-use, adaptive toolkit powered by AI.",
+		"Tell more engaging stories and write more genuine essays. Use Ardemy's easy-to-use toolkit to transform your writing.",
 	links: {
 		github: "https://github.com/ahmoin",
 	},

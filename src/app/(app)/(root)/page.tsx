@@ -13,7 +13,7 @@ import { stackServerApp } from "@/stack";
 
 const title = "Streamline your AI-Powered Writing";
 const description =
-	"Tell more engaging stories and write more genuine essays through Ardemy's easy-to-use, adaptive toolkit powered by AI.";
+	"Tell more engaging stories and write more genuine essays. Use Ardemy's easy-to-use toolkit to transform your writing.";
 
 export const metadata: Metadata = {
 	title,
