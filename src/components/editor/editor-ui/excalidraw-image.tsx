@@ -1,11 +1,11 @@
-import type * as React from "react";
-import { type JSX, useEffect, useState } from "react";
 import { exportToSvg } from "@excalidraw/excalidraw";
 import type {
 	ExcalidrawElement,
 	NonDeleted,
-} from "@excalidraw/excalidraw/types/element/types";
-import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types/types";
+} from "@excalidraw/excalidraw/element/types";
+import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
+import type * as React from "react";
+import { type JSX, useEffect, useState } from "react";
 
 type ImageType = "svg" | "canvas";
 
@@ -121,6 +121,7 @@ export default function ExcalidrawImage({
 			}}
 			className={rootClassName ?? ""}
 			style={containerStyle}
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: needed for SVG rendering
 			dangerouslySetInnerHTML={{ __html: Svg?.outerHTML ?? "" }}
 		/>
 	);

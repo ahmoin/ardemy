@@ -1,12 +1,4 @@
-import {
-	type JSX,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
-import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types/types";
+import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useLexicalEditable } from "@lexical/react/useLexicalEditable";
 import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection";
@@ -19,6 +11,14 @@ import {
 	KEY_BACKSPACE_COMMAND,
 	KEY_DELETE_COMMAND,
 } from "lexical";
+import {
+	type JSX,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 
 import ExcalidrawImage from "@/components/editor/editor-ui/excalidraw-image";
 import type { ExcalidrawInitialElements } from "@/components/editor/editor-ui/excalidraw-modal";

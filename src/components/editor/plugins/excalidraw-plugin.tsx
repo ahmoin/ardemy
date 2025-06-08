@@ -1,14 +1,6 @@
 "use client";
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import { type JSX, useEffect, useState } from "react";
-import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types/types";
+import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $wrapNodeInElement } from "@lexical/utils";
 import {
@@ -19,6 +11,14 @@ import {
 	createCommand,
 	type LexicalCommand,
 } from "lexical";
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import { type JSX, useEffect, useState } from "react";
 
 import type { ExcalidrawInitialElements } from "@/components/editor/editor-ui/excalidraw-modal";
 import { ExcalidrawModal } from "@/components/editor/editor-ui/excalidraw-modal";
