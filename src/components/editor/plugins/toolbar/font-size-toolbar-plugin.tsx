@@ -49,7 +49,7 @@ export function FontSizeToolbarPlugin() {
 			});
 			setFontSize(size);
 		},
-		[activeEditor, style],
+		[activeEditor],
 	);
 
 	return (

@@ -83,7 +83,7 @@ export default function ExcalidrawComponent({
 						return true;
 					}
 
-					if (buttonElem !== null && buttonElem.contains(eventTarget as Node)) {
+					if (buttonElem?.contains(eventTarget as Node)) {
 						if (!event.shiftKey) {
 							clearSelection();
 						}

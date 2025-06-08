@@ -12,7 +12,7 @@ import { useToolbarContext } from "@/components/editor/context/toolbar-context";
 export function useUpdateToolbarHandler(
 	callback: (selection: BaseSelection) => void,
 ) {
-	const [editor] = useLexicalComposerContext();
+	const [_editor] = useLexicalComposerContext();
 	const { activeEditor } = useToolbarContext();
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ export function useUpdateToolbarHandler(
 			},
 			COMMAND_PRIORITY_CRITICAL,
 		);
-	}, [editor, callback]);
+	}, [callback, activeEditor.registerCommand]);
 
 	useEffect(() => {
 		activeEditor.getEditorState().read(() => {

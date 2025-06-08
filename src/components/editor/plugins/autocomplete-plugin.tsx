@@ -91,7 +91,7 @@ export function AutocompletePlugin(): JSX.Element | null {
 				autocompleteNodeKey !== null
 					? $getNodeByKey(autocompleteNodeKey)
 					: null;
-			if (autocompleteNode !== null && autocompleteNode.isAttached()) {
+			if (autocompleteNode?.isAttached()) {
 				autocompleteNode.remove();
 				autocompleteNodeKey = null;
 			}
@@ -161,7 +161,7 @@ export function AutocompletePlugin(): JSX.Element | null {
 							updateAsyncSuggestion(searchPromise, newSuggestion);
 						}
 					})
-					.catch((e) => {
+					.catch((_e) => {
 						// console.error(e)
 					});
 				lastMatch = match;

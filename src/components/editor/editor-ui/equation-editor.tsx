@@ -24,7 +24,6 @@ function EquationEditor(
 				className="EquationEditor_inlineEditor text-primary m-0 resize-none border-0 bg-inherit p-0 outline-none"
 				value={equation}
 				onChange={onChange}
-				autoFocus={true}
 				ref={forwardedRef as RefObject<HTMLInputElement>}
 			/>
 			<span className="EquationEditor_dollarSign text-muted-foreground text-left">

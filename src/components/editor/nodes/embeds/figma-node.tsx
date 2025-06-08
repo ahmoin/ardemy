@@ -11,6 +11,7 @@ import type {
 	NodeKey,
 	Spread,
 } from "lexical";
+import type { JSX } from "react";
 
 type FigmaComponentProps = Readonly<{
 	className: Readonly<{
@@ -40,6 +41,7 @@ function FigmaComponent({
 				src={`https://www.figma.com/embed?embed_host=lexical&url=\
         https://www.figma.com/file/${documentID}`}
 				allowFullScreen={true}
+				title="Figma Embed"
 			/>
 		</BlockWithAlignableContents>
 	);

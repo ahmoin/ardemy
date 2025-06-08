@@ -140,7 +140,7 @@ function TableActionMenu({
 		columns: 1,
 		rows: 1,
 	});
-	const [modal, showModal] = useEditorModal();
+	const [modal, _showModal] = useEditorModal();
 	const [canMergeCells, setCanMergeCells] = useState(false);
 	const [canUnmergeCell, setCanUnmergeCell] = useState(false);
 	const [backgroundColor, setBackgroundColor] = useState(
@@ -214,7 +214,7 @@ function TableActionMenu({
 			}
 			dropDownElement.style.top = `${topPosition + +window.pageYOffset}px`;
 		}
-	}, [contextRef, dropDownRef, editor]);
+	}, [contextRef, editor]);
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -655,7 +655,7 @@ function TableCellActionMenuContainer({
 				menuButtonDOM.style.transform = "translate(-10000px, -10000px)";
 			}
 		}
-	}, [menuButtonRef, tableCellNode, editor, anchorElem]);
+	}, [tableCellNode, editor, anchorElem]);
 
 	const prevTableCellDOM = useRef(tableCellNode);
 
@@ -665,7 +665,7 @@ function TableCellActionMenuContainer({
 		}
 
 		prevTableCellDOM.current = tableCellNode;
-	}, [prevTableCellDOM, tableCellNode]);
+	}, [tableCellNode]);
 
 	return (
 		<div

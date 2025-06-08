@@ -292,7 +292,7 @@ export function AutoEmbedPlugin(): JSX.Element {
 										<Command>
 											<CommandList>
 												<CommandGroup>
-													{options.map((option, i: number) => (
+													{options.map((option, _i: number) => (
 														<CommandItem
 															key={option.key}
 															value={option.title}

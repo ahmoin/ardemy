@@ -47,7 +47,7 @@ export function MarkdownTogglePlugin({
 				}
 			}
 		});
-	}, [editor, shouldPreserveNewLinesInMarkdown]);
+	}, [editor, shouldPreserveNewLinesInMarkdown, transformers]);
 
 	return (
 		<Button

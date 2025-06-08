@@ -119,11 +119,11 @@ export function UpdateInlineImageDialog({
 	const [showCaption, setShowCaption] = useState(node.getShowCaption());
 	const [position, setPosition] = useState<Position>(node.getPosition());
 
-	const handleShowCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const _handleShowCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setShowCaption(e.target.checked);
 	};
 
-	const handlePositionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	const _handlePositionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setPosition(e.target.value as Position);
 	};
 
@@ -357,21 +357,20 @@ export default function InlineImageComponent({
 			unregister();
 		};
 	}, [
-		clearSelection,
-		editor,
-		isSelected,
-		nodeKey,
-		$onDelete,
-		$onEnter,
-		$onEscape,
-		setSelected,
+		clearSelection, 
+		editor, 
+		isSelected, 
+		$onDelete, 
+		$onEnter, 
+		$onEscape, 
+		setSelected
 	]);
 
 	const draggable = isSelected && $isNodeSelection(selection);
 	const isFocused = isSelected && isEditable;
 	return (
 		<Suspense fallback={null}>
-			<>
+			
 				<span draggable={draggable}>
 					{isEditable && (
 						<Button
@@ -427,7 +426,7 @@ export default function InlineImageComponent({
 						</LexicalNestedComposer>
 					</div>
 				)}
-			</>
+			
 			{modal}
 		</Suspense>
 	);

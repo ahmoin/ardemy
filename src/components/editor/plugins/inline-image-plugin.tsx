@@ -75,11 +75,11 @@ export function InsertInlineImageDialog({
 
 	const isDisabled = src === "";
 
-	const handleShowCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const _handleShowCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setShowCaption(e.target.checked);
 	};
 
-	const handlePositionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	const _handlePositionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setPosition(e.target.value as Position);
 	};
 
@@ -105,7 +105,7 @@ export function InsertInlineImageDialog({
 		return () => {
 			document.removeEventListener("keydown", handler);
 		};
-	}, [activeEditor]);
+	}, []);
 
 	const handleOnClick = () => {
 		const payload = { altText, position, showCaption, src };

@@ -1,5 +1,5 @@
-import { type JSX, useCallback, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { type JSX, useCallback, useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import KatexRenderer from "@/components/editor/editor-ui/katex-renderer";
@@ -28,7 +28,11 @@ export default function KatexEquationAlterer({
 
 	const onCheckboxChange = useCallback(() => {
 		setInline(!inline);
-	}, [setInline, inline]);
+	}, [inline]);
+
+	const checkboxId = useId();
+	const inlineInputId = useId();
+	const textareaId = useId();
 
 	return (
 		<>
@@ -37,7 +41,7 @@ export default function KatexEquationAlterer({
 					Inline
 				</Label>
 				<Checkbox
-					id="inline-toggle"
+					id={checkboxId}
 					checked={inline}
 					onCheckedChange={onCheckboxChange}
 				/>
@@ -49,14 +53,14 @@ export default function KatexEquationAlterer({
 				</Label>
 				{inline ? (
 					<Input
-						id="equation-input"
+						id={inlineInputId}
 						onChange={(event) => setEquation(event.target.value)}
 						value={equation}
 						placeholder="Enter inline equation..."
 					/>
 				) : (
 					<Textarea
-						id="equation-input"
+						id={textareaId}
 						onChange={(event) => setEquation(event.target.value)}
 						value={equation}
 						placeholder="Enter block equation..."

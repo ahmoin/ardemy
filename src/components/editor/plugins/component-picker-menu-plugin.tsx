@@ -63,7 +63,7 @@ export function ComponentPickerMenuPlugin({
 					option.keywords.some((keyword) => regex.test(keyword)),
 			),
 		];
-	}, [editor, queryString, showModal]);
+	}, [queryString, baseOptions, dynamicOptionsFn]);
 
 	const onSelectOption = useCallback(
 		(
@@ -78,7 +78,7 @@ export function ComponentPickerMenuPlugin({
 				closeMenu();
 			});
 		},
-		[editor],
+		[editor, showModal],
 	);
 
 	return (

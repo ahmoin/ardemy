@@ -97,7 +97,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 					return;
 				}
 				updateIsMouseDown(isMouseDownOnEvent(event));
-				if (resizerRef.current && resizerRef.current.contains(target as Node)) {
+				if (resizerRef.current?.contains(target as Node)) {
 					return;
 				}
 
@@ -131,13 +131,13 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 			}, 0);
 		};
 
-		const onMouseDown = (event: MouseEvent) => {
+		const onMouseDown = (_event: MouseEvent) => {
 			setTimeout(() => {
 				updateIsMouseDown(true);
 			}, 0);
 		};
 
-		const onMouseUp = (event: MouseEvent) => {
+		const onMouseUp = (_event: MouseEvent) => {
 			setTimeout(() => {
 				updateIsMouseDown(false);
 			}, 0);
@@ -157,7 +157,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 		return () => {
 			removeRootListener();
 		};
-	}, [activeCell, draggingDirection, editor, resetState]);
+	}, [activeCell, draggingDirection, editor, resetState, isMouseDownOnEvent]);
 
 	const isHeightChanging = (direction: MouseDraggingDirection) => {
 		if (direction === "bottom") {
@@ -277,7 +277,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 				{ tag: "skip-scroll-into-view" },
 			);
 		},
-		[activeCell, editor],
+		[activeCell, editor, getCellColumnIndex],
 	);
 
 	const mouseUpHandler = useCallback(
@@ -312,7 +312,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 			};
 			return handler;
 		},
-		[activeCell, resetState, updateColumnWidth, updateRowHeight],
+		[activeCell, resetState, updateColumnWidth, updateRowHeight, isHeightChanging],
 	);
 
 	const toggleResize = useCallback(
@@ -397,7 +397,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 			right: null,
 			top: null,
 		};
-	}, [activeCell, draggingDirection, mouseCurrentPos]);
+	}, [activeCell, draggingDirection, mouseCurrentPos, isHeightChanging]);
 
 	const resizerStyles = getResizers();
 

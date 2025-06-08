@@ -53,7 +53,7 @@ export function FontFamilyToolbarPlugin() {
 				}
 			});
 		},
-		[activeEditor, style],
+		[activeEditor],
 	);
 
 	const buttonAriaLabel = "Formatting options for font family";

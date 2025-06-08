@@ -171,7 +171,7 @@ export function InsertImageDialog({
 		return () => {
 			document.removeEventListener("keydown", handler);
 		};
-	}, [activeEditor]);
+	}, []);
 
 	const onClick = (payload: InsertImagePayload) => {
 		activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
@@ -246,7 +246,7 @@ export function ImagesPlugin({
 				COMMAND_PRIORITY_HIGH,
 			),
 		);
-	}, [captionsEnabled, editor]);
+	}, [editor]);
 
 	return null;
 }
