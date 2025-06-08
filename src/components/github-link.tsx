@@ -46,7 +46,7 @@ export async function StarsCount() {
 		>
 			{json.stargazers_count >= 1000
 				? `${(json.stargazers_count / 1000).toFixed(1)}k`
-				: json.stargazers_count.toLocaleString()}{" "}
+				: json.stargazers_count?.toLocaleString()}{" "}
 			{json.stargazers_count === 0 ? (
 				<span className="font-serif italic hidden sm:inline">
 					–Become the first stargazer

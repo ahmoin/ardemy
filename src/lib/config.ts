@@ -5,7 +5,7 @@ export const siteConfig = {
 	description:
 		"Tell more engaging stories and write more genuine essays. Use Ardemy's easy-to-use toolkit to transform your writing.",
 	links: {
-		github: "https://github.com/ahmoin",
+		github: "https://github.com/ahmoin/ardemy",
 	},
 	navItems: [
 		{

@@ -1,6 +1,7 @@
 "use server";
 
 import { neon } from "@neondatabase/serverless";
+import { generateUUID } from "@/lib/utils";
 
 export async function getUserDetails(userId: string | undefined) {
 	if (!process.env.DATABASE_URL) {
@@ -15,4 +16,53 @@ export async function getUserDetails(userId: string | undefined) {
 	const [user] =
 		await sql`SELECT * FROM neon_auth.users_sync WHERE id = ${userId};`;
 	return user;
+}
+
+export async function createProject(userId: string | undefined, type: string) {
+	if (!process.env.DATABASE_URL) {
+		throw new Error("DATABASE_URL is not set");
+	}
+
+	if (!userId) {
+		return "/";
+	}
+
+	const sql = neon(process.env.DATABASE_URL);
+	const projectId = generateUUID();
+
+	try {
+		await sql`
+      INSERT INTO projects (id, user_id, type, created_at)
+      VALUES (${projectId}, ${userId}, ${type}, NOW())
+    `;
+		const projectUrl = `/${type}/${projectId}`;
+		return projectUrl;
+	} catch (error) {
+		console.error("Error creating project:", error);
+		return "/";
+	}
+}
+
+export async function getProjectFromDatabase(
+	projectId: string,
+	userId?: string,
+) {
+	if (!process.env.DATABASE_URL) {
+		throw new Error("DATABASE_URL is not set");
+	}
+
+	const sql = neon(process.env.DATABASE_URL);
+
+	try {
+		const [project] = await sql`
+      SELECT *
+      FROM projects
+      WHERE id = ${projectId}
+      ${userId ? sql`AND user_id = ${userId}` : sql``}
+    `;
+		return project;
+	} catch (error) {
+		console.error("Error getting project:", error);
+		return null;
+	}
 }

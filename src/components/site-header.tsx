@@ -25,14 +25,14 @@ export async function SiteHeader() {
 						size="icon"
 						className="hidden size-8 lg:flex"
 					>
-						<Link href="/">
+						<Link href={user ? "/dashboard" : "/"}>
 							<Icons.logo className="size-5" />
 							<span className="sr-only">{siteConfig.name}</span>
 						</Link>
 					</Button>
 					<div className="flex flex-row items-center justify-between w-full sm:w-min sm:justify-normal">
 						{user ? (
-							<div className="flex items-center gap-4">
+							<div className="flex items-center justify-end gap-4 w-48">
 								<span className="inline-flex h-8 items-end flex-col">
 									{userProfile?.name && (
 										<span className="text-[14px] text-gray-600 dark:text-gray-300">

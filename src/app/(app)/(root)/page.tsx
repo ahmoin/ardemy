@@ -43,7 +43,7 @@ export default async function IndexPage() {
 	const user = await stackServerApp.getUser();
 	const app = stackServerApp.urls;
 
-	return user ? null : (
+	return (
 		<div className="flex flex-1 flex-col -mb-4">
 			<PageHeader>
 				<Announcement />
@@ -55,11 +55,15 @@ export default async function IndexPage() {
 				<PageHeaderDescription>{description}</PageHeaderDescription>
 				<PageActions>
 					<Button asChild size="lg">
-						<Link href={app.signUp}>Start your project</Link>
+						<Link href={user ? "/dashboard" : app.signUp}>
+							Start your project
+						</Link>
 					</Button>
-					<Button asChild size="lg" variant="outline">
-						<Link href={app.signIn}>Sign In</Link>
-					</Button>
+					{user ? null : (
+						<Button asChild size="lg" variant="outline">
+							<Link href={app.signIn}>Sign In</Link>
+						</Button>
+					)}
 				</PageActions>
 			</PageHeader>
 			{/* TODO: add index page illustration
