@@ -1,5 +1,14 @@
 "use client";
 
+import {
+	$isCodeNode,
+	CodeNode,
+	getLanguageFriendlyName,
+	normalizeCodeLang,
+} from "@lexical/code";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $getNearestNodeFromDOMNode } from "lexical";
+import type * as React from "react";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -9,15 +18,6 @@
  */
 // import './index.css';
 import { type JSX, useEffect, useRef, useState } from "react";
-import type * as React from "react";
-import {
-	$isCodeNode,
-	CodeNode,
-	getLanguageFriendlyName,
-	normalizeCodeLang,
-} from "@lexical/code";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getNearestNodeFromDOMNode } from "lexical";
 import { createPortal } from "react-dom";
 
 import { useDebounce } from "@/components/editor/editor-hooks/use-debounce";

@@ -1,12 +1,17 @@
 "use client";
 
-import { type JSX, useEffect, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
 	$findMatchingParent,
 	$insertNodeToNearestRoot,
 	mergeRegister,
 } from "@lexical/utils";
+import type {
+	ElementNode,
+	LexicalCommand,
+	LexicalNode,
+	NodeKey,
+} from "lexical";
 import {
 	$createParagraphNode,
 	$getNodeByKey,
@@ -21,12 +26,7 @@ import {
 	KEY_ARROW_UP_COMMAND,
 	type LexicalEditor,
 } from "lexical";
-import type {
-	ElementNode,
-	LexicalCommand,
-	LexicalNode,
-	NodeKey,
-} from "lexical";
+import { type JSX, useEffect, useState } from "react";
 
 import {
 	$createLayoutContainerNode,

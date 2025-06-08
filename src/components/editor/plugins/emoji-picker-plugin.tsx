@@ -1,7 +1,5 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
 	MenuOption,
@@ -13,6 +11,8 @@ import {
 	$isRangeSelection,
 	type TextNode,
 } from "lexical";
+import dynamic from "next/dynamic";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 import {

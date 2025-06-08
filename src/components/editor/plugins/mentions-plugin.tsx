@@ -1,7 +1,5 @@
 "use client";
 
-import { type JSX, useCallback, useEffect, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
 	MenuOption,
@@ -10,6 +8,8 @@ import {
 } from "@lexical/react/LexicalTypeaheadMenuPlugin";
 import type { TextNode } from "lexical";
 import { CircleUserRoundIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+import { type JSX, useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { $createMentionNode } from "@/components/editor/nodes/mention-node";
@@ -49,7 +49,7 @@ const VALID_JOINS =
 	" |" + // E.g. " " in "Josh Duck"
 	"[" +
 	PUNC +
-	"]|" + // E.g. "-' in "Salier-Hellendag"
+	"]|" + // E.g. "-' in "Name-Name"
 	")";
 
 const LENGTH_LIMIT = 75;
@@ -90,6 +90,7 @@ const SUGGESTION_LIST_LENGTH_LIMIT = 5;
 
 const mentionsCache = new Map();
 
+// cSpell:disable
 const dummyMentionsData = [
 	"Aayla Secura",
 	"Adi Gallia",

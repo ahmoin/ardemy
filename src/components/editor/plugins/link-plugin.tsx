@@ -1,7 +1,7 @@
 "use client";
 
-import type { JSX } from "react";
 import { LinkPlugin as LexicalLinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import type { JSX } from "react";
 
 import { validateUrl } from "@/components/editor/utils/url";
 

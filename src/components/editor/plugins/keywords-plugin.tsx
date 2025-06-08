@@ -1,5 +1,8 @@
 "use client";
 
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { useLexicalTextEntity } from "@lexical/react/useLexicalTextEntity";
+import type { TextNode } from "lexical";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -8,9 +11,6 @@
  *
  */
 import { type JSX, useCallback, useEffect } from "react";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { useLexicalTextEntity } from "@lexical/react/useLexicalTextEntity";
-import type { TextNode } from "lexical";
 
 import {
 	$createKeywordNode,

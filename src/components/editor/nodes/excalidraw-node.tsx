@@ -1,5 +1,3 @@
-import * as React from "react";
-import { type JSX, Suspense } from "react";
 import type {
 	DOMConversionMap,
 	DOMConversionOutput,
@@ -12,6 +10,8 @@ import type {
 	Spread,
 } from "lexical";
 import { DecoratorNode } from "lexical";
+import * as React from "react";
+import { type JSX, Suspense } from "react";
 
 type Dimension = number | "inherit";
 

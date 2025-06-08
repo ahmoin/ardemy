@@ -1,5 +1,9 @@
 "use client";
 
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { useBasicTypeaheadTriggerMatch } from "@lexical/react/LexicalTypeaheadMenuPlugin";
+import type { TextNode } from "lexical";
+import dynamic from "next/dynamic";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -8,10 +12,6 @@
  *
  */
 import { type JSX, useCallback, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { useBasicTypeaheadTriggerMatch } from "@lexical/react/LexicalTypeaheadMenuPlugin";
-import type { TextNode } from "lexical";
 import { createPortal } from "react-dom";
 
 import { useEditorModal } from "@/components/editor/editor-hooks/use-modal";

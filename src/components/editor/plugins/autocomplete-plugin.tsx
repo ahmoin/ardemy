@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import { type JSX, useCallback, useEffect } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { mergeRegister } from "@lexical/utils";
@@ -23,6 +15,14 @@ import {
 	KEY_ARROW_RIGHT_COMMAND,
 	KEY_TAB_COMMAND,
 } from "lexical";
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import { type JSX, useCallback, useEffect } from "react";
 
 import { useSharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
 import {
@@ -55,7 +55,8 @@ function $search(selection: null | BaseSelection): [boolean, string] {
 	const word = [];
 	const text = node.getTextContent();
 	let i = node.getTextContentSize();
-	let c;
+	let c: string;
+	// biome-ignore lint/suspicious/noAssignInExpressions: using for now because of original plugin
 	while (i-- && i >= 0 && (c = text[i]) !== " ") {
 		word.push(c);
 	}
@@ -229,60 +230,7 @@ export function AutocompletePlugin(): JSX.Element | null {
 	return null;
 }
 
-/*
- * Simulate an asynchronous autocomplete server (typical in more common use cases like GMail where
- * the data is not static).
- */
-class AutocompleteServer {
-	DATABASE = DICTIONARY;
-	LATENCY = 200;
-
-	query = (searchText: string): SearchPromise => {
-		let isDismissed = false;
-
-		const dismiss = () => {
-			isDismissed = true;
-		};
-		const promise: Promise<null | string> = new Promise((resolve, reject) => {
-			setTimeout(() => {
-				if (isDismissed) {
-					// TODO cache result
-					return reject("Dismissed");
-				}
-				const searchTextLength = searchText.length;
-				if (searchText === "" || searchTextLength < 4) {
-					return resolve(null);
-				}
-				const char0 = searchText.charCodeAt(0);
-				const isCapitalized = char0 >= 65 && char0 <= 90;
-				const caseInsensitiveSearchText = isCapitalized
-					? String.fromCharCode(char0 + 32) + searchText.substring(1)
-					: searchText;
-				const match = this.DATABASE.find(
-					(dictionaryWord) =>
-						dictionaryWord.startsWith(caseInsensitiveSearchText) ?? null,
-				);
-				if (match === undefined) {
-					return resolve(null);
-				}
-				const matchCapitalized = isCapitalized
-					? String.fromCharCode(match.charCodeAt(0) - 32) + match.substring(1)
-					: match;
-				const autocompleteChunk = matchCapitalized.substring(searchTextLength);
-				if (autocompleteChunk === "") {
-					return resolve(null);
-				}
-				return resolve(autocompleteChunk);
-			}, this.LATENCY);
-		});
-
-		return {
-			dismiss,
-			promise,
-		};
-	};
-}
-
+// TODO: use better dictionary
 // https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-usa-no-swears-long.txt
 const DICTIONARY = [
 	"information",
@@ -458,7 +406,6 @@ const DICTIONARY = [
 	"maintenance",
 	"functions",
 	"trademarks",
-	"phentermine",
 	"submitted",
 	"television",
 	"interested",
@@ -713,7 +660,6 @@ const DICTIONARY = [
 	"newspaper",
 	"liability",
 	"trademark",
-	"trackback",
 	"americans",
 	"promotion",
 	"conversion",
@@ -776,7 +722,6 @@ const DICTIONARY = [
 	"characteristics",
 	"experiences",
 	"extremely",
-	"verzeichnis",
 	"contracts",
 	"concerning",
 	"developers",
@@ -826,7 +771,6 @@ const DICTIONARY = [
 	"connections",
 	"inventory",
 	"converter",
-	"organisation",
 	"objective",
 	"indicated",
 	"securities",
@@ -963,7 +907,6 @@ const DICTIONARY = [
 	"representation",
 	"arrangements",
 	"conferences",
-	"uniprotkb",
 	"consumption",
 	"birmingham",
 	"afternoon",
@@ -998,12 +941,12 @@ const DICTIONARY = [
 	"organized",
 	"improving",
 	"expensive",
-	"organisations",
+	"organizations",
 	"explained",
 	"programmes",
 	"expertise",
 	"mechanism",
-	"jewellery",
+	"jewelry",
 	"eventually",
 	"agreements",
 	"considering",
@@ -1107,7 +1050,7 @@ const DICTIONARY = [
 	"surrounding",
 	"mountains",
 	"popularity",
-	"postposted",
+	"postponed",
 	"coordinator",
 	"obviously",
 	"fundamental",
@@ -1133,7 +1076,7 @@ const DICTIONARY = [
 	"involvement",
 	"placement",
 	"observations",
-	"vbulletin",
+	"bulletin",
 	"subsequent",
 	"motorcycle",
 	"disclosure",
@@ -1143,7 +1086,6 @@ const DICTIONARY = [
 	"occupation",
 	"donations",
 	"associations",
-	"citysearch",
 	"radiation",
 	"seriously",
 	"elsewhere",
@@ -1253,7 +1195,7 @@ const DICTIONARY = [
 	"authentication",
 	"communicate",
 	"supplement",
-	"showtimes",
+	"showtime",
 	"promoting",
 	"machinery",
 	"bandwidth",
@@ -1446,7 +1388,6 @@ const DICTIONARY = [
 	"horizontal",
 	"terrorist",
 	"informational",
-	"ecommerce",
 	"suffering",
 	"prospective",
 	"ultimately",
@@ -1673,7 +1614,6 @@ const DICTIONARY = [
 	"fisheries",
 	"exceptions",
 	"reactions",
-	"macromedia",
 	"companion",
 	"divisions",
 	"additionally",
@@ -1697,7 +1637,6 @@ const DICTIONARY = [
 	"cholesterol",
 	"differential",
 	"scientist",
-	"starsmerchant",
 	"arthritis",
 	"nevertheless",
 	"practitioners",
@@ -1728,7 +1667,6 @@ const DICTIONARY = [
 	"aggregate",
 	"forecasts",
 	"complicated",
-	"shopzilla",
 	"decorating",
 	"expressions",
 	"shakespeare",
@@ -1753,7 +1691,6 @@ const DICTIONARY = [
 	"circulation",
 	"assumption",
 	"jerusalem",
-	"transexuales",
 	"invention",
 	"technician",
 	"executives",
@@ -1768,7 +1705,6 @@ const DICTIONARY = [
 	"cancellation",
 	"ministers",
 	"veterinary",
-	"prostores",
 	"relevance",
 	"incentive",
 	"butterfly",
@@ -1781,10 +1717,7 @@ const DICTIONARY = [
 	"spirituality",
 	"meanwhile",
 	"proprietary",
-	"childrens",
-	"thumbzilla",
 	"porcelain",
-	"pichunter",
 	"translated",
 	"columnists",
 	"consensus",
@@ -1837,7 +1770,6 @@ const DICTIONARY = [
 	"reflected",
 	"respiratory",
 	"notifications",
-	"transexual",
 	"mainstream",
 	"evaluating",
 	"subcommittee",
@@ -1900,7 +1832,6 @@ const DICTIONARY = [
 	"frederick",
 	"aggressive",
 	"advertisements",
-	"sublimedirectory",
 	"disturbed",
 	"determines",
 	"sculpture",
@@ -1947,7 +1878,6 @@ const DICTIONARY = [
 	"comparisons",
 	"beneficial",
 	"distributions",
-	"viewpicture",
 	"threatened",
 	"republicans",
 	"discusses",
@@ -1986,7 +1916,6 @@ const DICTIONARY = [
 	"conferencing",
 	"armstrong",
 	"politicians",
-	"trackbacks",
 	"accommodate",
 	"christine",
 	"accepting",
@@ -2045,7 +1974,6 @@ const DICTIONARY = [
 	"meaningful",
 	"maintains",
 	"shortcuts",
-	"voyeurweb",
 	"extending",
 	"specifies",
 	"accreditation",
@@ -2076,7 +2004,6 @@ const DICTIONARY = [
 	"responding",
 	"physically",
 	"stakeholders",
-	"hydrocodone",
 	"consecutive",
 	"attempting",
 	"representations",
@@ -2115,7 +2042,6 @@ const DICTIONARY = [
 	"introduces",
 	"webmasters",
 	"computational",
-	"acdbentity",
 	"participated",
 	"handhelds",
 	"answering",
@@ -2171,7 +2097,7 @@ const DICTIONARY = [
 	"astrology",
 	"occurring",
 	"supplemental",
-	"travelling",
+	"traveling",
 	"induction",
 	"precisely",
 	"spreading",
@@ -2182,9 +2108,7 @@ const DICTIONARY = [
 	"enhancing",
 	"interference",
 	"palestine",
-	"listprice",
 	"atmospheric",
-	"knowledgestorm",
 	"referenced",
 	"publicity",
 	"proposition",
@@ -2209,7 +2133,6 @@ const DICTIONARY = [
 	"stephanie",
 	"contacting",
 	"vegetation",
-	"findarticles",
 	"specially",
 	"infectious",
 	"continuity",
@@ -2235,10 +2158,9 @@ const DICTIONARY = [
 	"qualifying",
 	"estimation",
 	"pediatric",
-	"techrepublic",
 	"institutes",
 	"brochures",
-	"traveller",
+	"traveler",
 	"appropriations",
 	"suspected",
 	"benchmark",
@@ -2367,7 +2289,6 @@ const DICTIONARY = [
 	"helicopter",
 	"performer",
 	"commissions",
-	"powerseller",
 	"graduated",
 	"surprising",
 	"unnecessary",
@@ -2425,7 +2346,6 @@ const DICTIONARY = [
 	"psychiatry",
 	"persistent",
 	"summaries",
-	"looksmart",
 	"magnificent",
 	"colleague",
 	"adaptation",
@@ -2474,9 +2394,8 @@ const DICTIONARY = [
 	"interventions",
 	"huntington",
 	"internship",
-	"aluminium",
+	"aluminum",
 	"snowboard",
-	"beastality",
 	"evanescence",
 	"coordinated",
 	"shipments",
@@ -2513,7 +2432,6 @@ const DICTIONARY = [
 	"continent",
 	"longitude",
 	"challenged",
-	"telecharger",
 	"insertion",
 	"instrumentation",
 	"constraint",
@@ -2527,3 +2445,57 @@ const DICTIONARY = [
 	"mediawiki",
 	"configurations",
 ];
+
+/*
+ * Simulate an asynchronous autocomplete server (typical in more common use cases like GMail where
+ * the data is not static).
+ */
+class AutocompleteServer {
+	DATABASE = DICTIONARY;
+	LATENCY = 200;
+
+	query = (searchText: string): SearchPromise => {
+		let isDismissed = false;
+
+		const dismiss = () => {
+			isDismissed = true;
+		};
+		const promise: Promise<null | string> = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				if (isDismissed) {
+					// TODO cache result
+					return reject("Dismissed");
+				}
+				const searchTextLength = searchText.length;
+				if (searchText === "" || searchTextLength < 4) {
+					return resolve(null);
+				}
+				const char0 = searchText.charCodeAt(0);
+				const isCapitalized = char0 >= 65 && char0 <= 90;
+				const caseInsensitiveSearchText = isCapitalized
+					? String.fromCharCode(char0 + 32) + searchText.substring(1)
+					: searchText;
+				const match = this.DATABASE.find(
+					(dictionaryWord) =>
+						dictionaryWord.startsWith(caseInsensitiveSearchText) ?? null,
+				);
+				if (match === undefined) {
+					return resolve(null);
+				}
+				const matchCapitalized = isCapitalized
+					? String.fromCharCode(match.charCodeAt(0) - 32) + match.substring(1)
+					: match;
+				const autocompleteChunk = matchCapitalized.substring(searchTextLength);
+				if (autocompleteChunk === "") {
+					return resolve(null);
+				}
+				return resolve(autocompleteChunk);
+			}, this.LATENCY);
+		});
+
+		return {
+			dismiss,
+			promise,
+		};
+	};
+}

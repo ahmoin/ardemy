@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import { type JSX, useCallback, useMemo } from "react";
-import * as React from "react";
-import dynamic from "next/dynamic";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { MenuOption } from "@lexical/react/LexicalContextMenuPlugin";
@@ -20,9 +10,19 @@ import {
 	$isRangeSelection,
 	COPY_COMMAND,
 	CUT_COMMAND,
-	PASTE_COMMAND,
 	type LexicalNode,
+	PASTE_COMMAND,
 } from "lexical";
+import dynamic from "next/dynamic";
+import * as React from "react";
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import { type JSX, useCallback, useMemo } from "react";
 
 import { Command, CommandItem, CommandList } from "@/components/ui/command";
 import {

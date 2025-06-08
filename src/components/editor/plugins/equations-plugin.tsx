@@ -1,5 +1,7 @@
 "use client";
 
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $wrapNodeInElement } from "@lexical/utils";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -8,8 +10,6 @@
  *
  */
 import { type JSX, useCallback, useEffect } from "react";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $wrapNodeInElement } from "@lexical/utils";
 
 import "katex/dist/katex.css";
 

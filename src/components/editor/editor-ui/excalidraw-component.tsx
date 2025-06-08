@@ -218,6 +218,7 @@ export default function ExcalidrawComponent({
 				<button
 					ref={buttonRef}
 					className={`m-0 border-0 bg-transparent p-0 ${isSelected ? "user-select-none ring-primary ring-2 ring-offset-2" : ""}`}
+					type="button"
 				>
 					<ExcalidrawImage
 						imageContainerRef={imageContainerRef}
@@ -229,6 +230,7 @@ export default function ExcalidrawComponent({
 						height={height}
 					/>
 					{isSelected && isEditable && (
+						// biome-ignore lint/a11y/useKeyWithClickEvents: needed for click event handling
 						<div
 							className="image-edit-button"
 							role="button"

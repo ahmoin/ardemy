@@ -1,13 +1,5 @@
 "use client";
 
-import {
-	type JSX,
-	type ReactPortal,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useLexicalEditable } from "@lexical/react/useLexicalEditable";
 import {
@@ -42,6 +34,14 @@ import {
 	$isTextNode,
 } from "lexical";
 import { ChevronDownIcon, PaintBucketIcon } from "lucide-react";
+import {
+	type JSX,
+	type ReactPortal,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { createPortal } from "react-dom";
 
 import { useEditorModal } from "@/components/editor/editor-hooks/use-modal";
@@ -677,7 +677,7 @@ function TableCellActionMenuContainer({
 					<PopoverTrigger asChild>
 						<button
 							type="button"
-							className="relative flex inline-block cursor-pointer items-center justify-center bg-none"
+							className="relative inline-block cursor-pointer items-center justify-center bg-none"
 							onClick={(e) => {
 								e.stopPropagation();
 								setIsMenuOpen(!isMenuOpen);

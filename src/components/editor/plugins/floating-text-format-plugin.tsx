@@ -1,20 +1,5 @@
 "use client";
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import {
-	type Dispatch,
-	type JSX,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
 import { $isCodeHighlightNode } from "@lexical/code";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -39,6 +24,21 @@ import {
 	SuperscriptIcon,
 	UnderlineIcon,
 } from "lucide-react";
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import {
+	type Dispatch,
+	type JSX,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { createPortal } from "react-dom";
 
 import { useFloatingLinkContext } from "@/components/editor/context/floating-link-context";

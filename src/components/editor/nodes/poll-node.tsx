@@ -1,5 +1,3 @@
-import * as React from "react";
-import { type JSX, Suspense } from "react";
 import {
 	DecoratorNode,
 	type DOMConversionMap,
@@ -10,6 +8,8 @@ import {
 	type SerializedLexicalNode,
 	type Spread,
 } from "lexical";
+import * as React from "react";
+import { type JSX, Suspense } from "react";
 
 export type Options = ReadonlyArray<Option>;
 

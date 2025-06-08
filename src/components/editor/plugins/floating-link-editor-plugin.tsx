@@ -1,21 +1,5 @@
 "use client";
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import {
-	type Dispatch,
-	type JSX,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
-import type * as React from "react";
 import {
 	$createLinkNode,
 	$isAutoLinkNode,
@@ -38,6 +22,22 @@ import {
 	SELECTION_CHANGE_COMMAND,
 } from "lexical";
 import { Check, Pencil, Trash, X } from "lucide-react";
+import type * as React from "react";
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import {
+	type Dispatch,
+	type JSX,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { createPortal } from "react-dom";
 
 import { useFloatingLinkContext } from "@/components/editor/context/floating-link-context";

@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import { type JSX, useEffect, useRef, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $wrapNodeInElement, mergeRegister } from "@lexical/utils";
 import {
@@ -28,6 +20,14 @@ import {
 	type LexicalCommand,
 	type LexicalEditor,
 } from "lexical";
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import { type JSX, useEffect, useRef, useState } from "react";
 
 import {
 	$createImageNode,
@@ -198,11 +198,8 @@ export function InsertImageDialog({
 	);
 }
 
-export function ImagesPlugin({
-	captionsEnabled,
-}: {
-	captionsEnabled?: boolean;
-}): JSX.Element | null {
+// TODO: implement captions captionsEnabled?: boolean;
+export function ImagesPlugin(): JSX.Element | null {
 	const [editor] = useLexicalComposerContext();
 
 	useEffect(() => {
@@ -362,7 +359,7 @@ function canDropImage(event: DragEvent): boolean {
 }
 
 function getDragSelection(event: DragEvent): Range | null | undefined {
-	let range;
+	let range: Range | null | undefined = null;
 	const target = event.target as null | Element | Document;
 	const targetWindow =
 		target == null

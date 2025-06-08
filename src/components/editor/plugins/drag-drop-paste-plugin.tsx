@@ -1,5 +1,9 @@
 "use client";
 
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { DRAG_DROP_PASTE } from "@lexical/rich-text";
+import { isMimeType, mediaFileReader } from "@lexical/utils";
+import { COMMAND_PRIORITY_LOW } from "lexical";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -8,10 +12,6 @@
  *
  */
 import { useEffect } from "react";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { DRAG_DROP_PASTE } from "@lexical/rich-text";
-import { isMimeType, mediaFileReader } from "@lexical/utils";
-import { COMMAND_PRIORITY_LOW } from "lexical";
 
 import { INSERT_IMAGE_COMMAND } from "@/components/editor/plugins/images-plugin";
 

@@ -1,4 +1,3 @@
-import type { JSX } from "react";
 import { BlockWithAlignableContents } from "@lexical/react/LexicalBlockWithAlignableContents";
 import {
 	DecoratorBlockNode,
@@ -15,6 +14,7 @@ import type {
 	NodeKey,
 	Spread,
 } from "lexical";
+import type { JSX } from "react";
 
 type YouTubeComponentProps = Readonly<{
 	className: Readonly<{

@@ -1,4 +1,3 @@
-import { type JSX, useCallback, useEffect, useRef, useState } from "react";
 import { BlockWithAlignableContents } from "@lexical/react/LexicalBlockWithAlignableContents";
 import {
 	DecoratorBlockNode,
@@ -15,6 +14,7 @@ import type {
 	NodeKey,
 	Spread,
 } from "lexical";
+import { type JSX, useCallback, useEffect, useRef, useState } from "react";
 
 const WIDGET_SCRIPT_URL = "https://platform.twitter.com/widgets.js";
 

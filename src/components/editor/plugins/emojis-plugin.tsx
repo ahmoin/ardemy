@@ -1,5 +1,8 @@
 "use client";
 
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import type { LexicalEditor } from "lexical";
+import { TextNode } from "lexical";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -8,9 +11,6 @@
  *
  */
 import { type JSX, useEffect } from "react";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import type { LexicalEditor } from "lexical";
-import { TextNode } from "lexical";
 
 import {
 	$createEmojiNode,

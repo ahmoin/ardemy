@@ -1,5 +1,12 @@
 "use client";
 
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import {
+	$getSelection,
+	$isRangeSelection,
+	$setSelection,
+	FOCUS_COMMAND,
+} from "lexical";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -8,13 +15,6 @@
  *
  */
 import { useEffect } from "react";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import {
-	$getSelection,
-	$isRangeSelection,
-	$setSelection,
-	FOCUS_COMMAND,
-} from "lexical";
 
 const COMMAND_PRIORITY_LOW = 1;
 const TAB_TO_FOCUS_INTERVAL = 100;

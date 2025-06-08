@@ -1,14 +1,5 @@
 "use client";
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import type * as React from "react";
-import { type JSX, useEffect, useRef, useState } from "react";
 // import '../nodes/inline-image-node.css';
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $wrapNodeInElement, mergeRegister } from "@lexical/utils";
@@ -30,6 +21,15 @@ import {
 	type LexicalCommand,
 	type LexicalEditor,
 } from "lexical";
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import type * as React from "react";
+import { type JSX, useEffect, useRef, useState } from "react";
 
 import type { Position } from "@/components/editor/nodes/inline-image-node";
 import {
