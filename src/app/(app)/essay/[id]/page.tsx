@@ -1,4 +1,5 @@
 import { getProjectFromDatabase } from "@/app/actions";
+import { EssayEditor } from "@/components/essay-editor";
 import { stackServerApp } from "@/stack";
 
 interface EssayPageProps {
@@ -23,6 +24,7 @@ export default async function EssayPage({ params }: EssayPageProps) {
 			<h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">
 				Essay
 			</h1>
+			<EssayEditor />
 		</div>
 	);
 }
