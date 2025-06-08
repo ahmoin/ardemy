@@ -27,7 +27,7 @@ import {
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { type JSX, useEffect, useRef, useState } from "react";
+import { type JSX, useEffect, useId, useRef, useState } from "react";
 
 import {
 	$createImageNode,
@@ -60,12 +60,15 @@ export function InsertImageUriDialogBody({
 
 	const isDisabled = src === "";
 
+	const imageUrlId = useId();
+	const altTextId = useId();
+
 	return (
 		<div className="grid gap-4 py-4">
 			<div className="grid gap-2">
 				<Label htmlFor="image-url">Image URL</Label>
 				<Input
-					id="image-url"
+					id={imageUrlId}
 					placeholder="i.e. https://source.unsplash.com/random"
 					onChange={(e) => setSrc(e.target.value)}
 					value={src}
@@ -75,7 +78,7 @@ export function InsertImageUriDialogBody({
 			<div className="grid gap-2">
 				<Label htmlFor="alt-text">Alt Text</Label>
 				<Input
-					id="alt-text"
+					id={altTextId}
 					placeholder="Random unsplash image"
 					onChange={(e) => setAltText(e.target.value)}
 					value={altText}
@@ -119,12 +122,15 @@ export function InsertImageUploadedDialogBody({
 		}
 	};
 
+	const imageUploadId = useId();
+	const altTextId = useId();
+
 	return (
 		<div className="grid gap-4 py-4">
 			<div className="grid gap-2">
 				<Label htmlFor="image-upload">Image Upload</Label>
 				<Input
-					id="image-upload"
+					id={imageUploadId}
 					type="file"
 					onChange={(e) => loadImage(e.target.files)}
 					accept="image/*"
@@ -134,7 +140,7 @@ export function InsertImageUploadedDialogBody({
 			<div className="grid gap-2">
 				<Label htmlFor="alt-text">Alt Text</Label>
 				<Input
-					id="alt-text"
+					id={altTextId}
 					placeholder="Descriptive alternative text"
 					onChange={(e) => setAltText(e.target.value)}
 					value={altText}
