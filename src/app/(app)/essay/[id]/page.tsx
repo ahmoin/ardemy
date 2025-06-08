@@ -2,13 +2,13 @@ import { getProjectFromDatabase } from "@/app/actions";
 import { stackServerApp } from "@/stack";
 
 interface EssayPageProps {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export default async function EssayPage({ params }: EssayPageProps) {
-	const { id } = params;
+	const { id } = await params;
 
 	const user = await stackServerApp.getUser();
 
