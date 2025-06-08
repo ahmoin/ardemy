@@ -357,76 +357,75 @@ export default function InlineImageComponent({
 			unregister();
 		};
 	}, [
-		clearSelection, 
-		editor, 
-		isSelected, 
-		$onDelete, 
-		$onEnter, 
-		$onEscape, 
-		setSelected
+		clearSelection,
+		editor,
+		isSelected,
+		$onDelete,
+		$onEnter,
+		$onEscape,
+		setSelected,
 	]);
 
 	const draggable = isSelected && $isNodeSelection(selection);
 	const isFocused = isSelected && isEditable;
 	return (
 		<Suspense fallback={null}>
-			
-				<span draggable={draggable}>
-					{isEditable && (
-						<Button
-							className="image-edit-button absolute top-1 right-1"
-							variant="outline"
-							ref={buttonRef}
-							onClick={() => {
-								showModal("Update Inline Image", (onClose) => (
-									<UpdateInlineImageDialog
-										activeEditor={editor}
-										nodeKey={nodeKey}
-										onClose={onClose}
-									/>
-								));
-							}}
-						>
-							Edit
-						</Button>
-					)}
-					<LazyImage
-						className={`max-w-full cursor-default ${
-							isFocused
-								? `${
-										$isNodeSelection(selection)
-											? "draggable cursor-grab active:cursor-grabbing"
-											: ""
-									} focused ring-primary ring-2 ring-offset-2`
-								: null
-						}`}
-						src={src}
-						altText={altText}
-						imageRef={imageRef}
-						width={width}
-						height={height}
-						position={position}
-					/>
-				</span>
-				{showCaption && (
-					<div className="image-caption-container absolute right-0 bottom-1 left-0 m-0 block min-w-[100px] overflow-hidden border-t bg-white/90 p-0">
-						<LexicalNestedComposer initialEditor={caption}>
-							<AutoFocusPlugin />
-							<LinkPlugin />
-							<RichTextPlugin
-								contentEditable={
-									<ContentEditable
-										placeholder="Enter a caption..."
-										className="ImageNode__contentEditable user-select-text word-break-break-word caret-primary relative block min-h-5 w-[calc(100%-20px)] cursor-text resize-none border-0 p-2.5 text-sm whitespace-pre-wrap outline-none"
-										placeholderClassName="ImageNode__placeholder text-sm text-muted-foreground overflow-hidden absolute top-2.5 left-2.5 pointer-events-none text-ellipsis user-select-none whitespace-nowrap inline-block"
-									/>
-								}
-								ErrorBoundary={LexicalErrorBoundary}
-							/>
-						</LexicalNestedComposer>
-					</div>
+			<span draggable={draggable}>
+				{isEditable && (
+					<Button
+						className="image-edit-button absolute top-1 right-1"
+						variant="outline"
+						ref={buttonRef}
+						onClick={() => {
+							showModal("Update Inline Image", (onClose) => (
+								<UpdateInlineImageDialog
+									activeEditor={editor}
+									nodeKey={nodeKey}
+									onClose={onClose}
+								/>
+							));
+						}}
+					>
+						Edit
+					</Button>
 				)}
-			
+				<LazyImage
+					className={`max-w-full cursor-default ${
+						isFocused
+							? `${
+									$isNodeSelection(selection)
+										? "draggable cursor-grab active:cursor-grabbing"
+										: ""
+								} focused ring-primary ring-2 ring-offset-2`
+							: null
+					}`}
+					src={src}
+					altText={altText}
+					imageRef={imageRef}
+					width={width}
+					height={height}
+					position={position}
+				/>
+			</span>
+			{showCaption && (
+				<div className="image-caption-container absolute right-0 bottom-1 left-0 m-0 block min-w-[100px] overflow-hidden border-t bg-white/90 p-0">
+					<LexicalNestedComposer initialEditor={caption}>
+						<AutoFocusPlugin />
+						<LinkPlugin />
+						<RichTextPlugin
+							contentEditable={
+								<ContentEditable
+									placeholder="Enter a caption..."
+									className="ImageNode__contentEditable user-select-text word-break-break-word caret-primary relative block min-h-5 w-[calc(100%-20px)] cursor-text resize-none border-0 p-2.5 text-sm whitespace-pre-wrap outline-none"
+									placeholderClassName="ImageNode__placeholder text-sm text-muted-foreground overflow-hidden absolute top-2.5 left-2.5 pointer-events-none text-ellipsis user-select-none whitespace-nowrap inline-block"
+								/>
+							}
+							ErrorBoundary={LexicalErrorBoundary}
+						/>
+					</LexicalNestedComposer>
+				</div>
+			)}
+
 			{modal}
 		</Suspense>
 	);

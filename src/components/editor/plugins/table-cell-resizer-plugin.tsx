@@ -312,7 +312,13 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 			};
 			return handler;
 		},
-		[activeCell, resetState, updateColumnWidth, updateRowHeight, isHeightChanging],
+		[
+			activeCell,
+			resetState,
+			updateColumnWidth,
+			updateRowHeight,
+			isHeightChanging,
+		],
 	);
 
 	const toggleResize = useCallback(
