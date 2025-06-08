@@ -6,14 +6,12 @@ import {
 } from "@lexical/react/LexicalComposer";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import type { EditorState, SerializedEditorState } from "lexical";
-
+import { nodes } from "@/components/blocks/editor-x/nodes";
+import { Plugins } from "@/components/blocks/editor-x/plugins";
 import { FloatingLinkContext } from "@/components/editor/context/floating-link-context";
 import { SharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
 import { editorTheme } from "@/components/editor/themes/editor-theme";
 import { TooltipProvider } from "@/components/ui/tooltip";
-
-import { nodes } from "./nodes";
-import { Plugins } from "./plugins";
 
 const editorConfig: InitialConfigType = {
 	namespace: "Editor",

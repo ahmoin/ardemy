@@ -17,13 +17,6 @@ import { $findMatchingParent, mergeRegister } from "@lexical/utils";
 import { $getNearestNodeFromDOMNode, type NodeKey } from "lexical";
 import { PlusIcon } from "lucide-react";
 import type * as React from "react";
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 import { type JSX, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 

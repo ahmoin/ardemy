@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import { type JSX, useMemo, useState } from "react";
 import {
 	AutoEmbedOption,
 	type EmbedConfig,
@@ -19,6 +11,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { PopoverPortal } from "@radix-ui/react-popover";
 import type { LexicalEditor } from "lexical";
 import { FigmaIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
+import { type JSX, useMemo, useState } from "react";
 
 import { useEditorModal } from "@/components/editor/editor-hooks/use-modal";
 import { INSERT_FIGMA_COMMAND } from "@/components/editor/plugins/embeds/figma-plugin";

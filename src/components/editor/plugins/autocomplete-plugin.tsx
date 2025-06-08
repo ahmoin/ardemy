@@ -15,13 +15,6 @@ import {
 	KEY_ARROW_RIGHT_COMMAND,
 	KEY_TAB_COMMAND,
 } from "lexical";
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 import { type JSX, useCallback, useEffect } from "react";
 
 import { useSharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
