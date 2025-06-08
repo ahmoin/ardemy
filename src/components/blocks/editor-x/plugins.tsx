@@ -40,7 +40,6 @@ import { CollapsiblePlugin } from "@/components/editor/plugins/collapsible-plugi
 import { ComponentPickerMenuPlugin } from "@/components/editor/plugins/component-picker-menu-plugin";
 import { ContextMenuPlugin } from "@/components/editor/plugins/context-menu-plugin";
 import { DragDropPastePlugin } from "@/components/editor/plugins/drag-drop-paste-plugin";
-import { DraggableBlockPlugin } from "@/components/editor/plugins/draggable-block-plugin";
 import { AutoEmbedPlugin } from "@/components/editor/plugins/embeds/auto-embed-plugin";
 import { FigmaPlugin } from "@/components/editor/plugins/embeds/figma-plugin";
 import { TwitterPlugin } from "@/components/editor/plugins/embeds/twitter-plugin";
@@ -220,7 +219,6 @@ export function Plugins() {
 
 				<MentionsPlugin />
 				<PageBreakPlugin />
-				<DraggableBlockPlugin anchorElem={floatingAnchorElem} />
 				<KeywordsPlugin />
 				<EmojisPlugin />
 				<ImagesPlugin />
