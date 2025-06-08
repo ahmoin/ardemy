@@ -247,7 +247,7 @@ function TableActionMenu({
 
 				const tableObserver = getTableObserverFromTableElement(tableElement);
 				if (tableObserver !== null) {
-					tableObserver.clearHighlight();
+					tableObserver.$clearHighlight();
 				}
 
 				tableNode.markDirty();
@@ -273,9 +273,10 @@ function TableActionMenu({
 							node.setColSpan(columns).setRowSpan(rows);
 							firstCell = node;
 							const isEmpty = $cellContainsEmptyParagraph(node);
-							let firstChild;
+							let firstChild: null | ElementNode = null;
 							if (
 								isEmpty &&
+								// biome-ignore lint/suspicious/noAssignInExpressions: needed to remove empty paragraph
 								$isParagraphNode((firstChild = node.getFirstChild()))
 							) {
 								firstChild.remove();

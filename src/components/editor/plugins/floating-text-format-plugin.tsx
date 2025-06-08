@@ -120,6 +120,7 @@ function FloatingTextFormat({
 				document.removeEventListener("mouseup", mouseUpListener);
 			};
 		}
+		// biome-ignore lint/correctness/useExhaustiveDependencies: changing on every re-render is expected
 	}, [mouseMoveListener, mouseUpListener]);
 
 	const $updateTextFormatFloatingToolbar = useCallback(() => {

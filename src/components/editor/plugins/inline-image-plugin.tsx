@@ -329,7 +329,7 @@ function canDropImage(event: DragEvent): boolean {
 }
 
 function getDragSelection(event: DragEvent): Range | null | undefined {
-	let range;
+	let range: Range | null | undefined = null;
 	const target = event.target as null | Element | Document;
 	const targetWindow =
 		target == null

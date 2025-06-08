@@ -25,7 +25,9 @@ export function DraggableBlockPlugin({
 	return (
 		<DraggableBlockPlugin_EXPERIMENTAL
 			anchorElem={anchorElem}
+			// @ts-ignore
 			menuRef={menuRef}
+			// @ts-ignore
 			targetLineRef={targetLineRef}
 			menuComponent={
 				<div

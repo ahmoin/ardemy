@@ -157,6 +157,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 		return () => {
 			removeRootListener();
 		};
+		// biome-ignore lint/correctness/useExhaustiveDependencies: isMouseDownOnEvent is expected to change on every re-render
 	}, [activeCell, draggingDirection, editor, resetState, isMouseDownOnEvent]);
 
 	const isHeightChanging = (direction: MouseDraggingDirection) => {
@@ -277,6 +278,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 				{ tag: "skip-scroll-into-view" },
 			);
 		},
+		// biome-ignore lint/correctness/useExhaustiveDependencies: getCellColumnIndex is expected to change on every re-render
 		[activeCell, editor, getCellColumnIndex],
 	);
 
@@ -317,6 +319,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 			resetState,
 			updateColumnWidth,
 			updateRowHeight,
+			// biome-ignore lint/correctness/useExhaustiveDependencies: expected to change on every re-render
 			isHeightChanging,
 		],
 	);
@@ -403,6 +406,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 			right: null,
 			top: null,
 		};
+		// biome-ignore lint/correctness/useExhaustiveDependencies: isHeightChanging is expected to change on every re-render
 	}, [activeCell, draggingDirection, mouseCurrentPos, isHeightChanging]);
 
 	const resizerStyles = getResizers();
@@ -411,11 +415,13 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 		<div ref={resizerRef}>
 			{activeCell != null && !isMouseDown && (
 				<>
+					{/** biome-ignore lint/a11y/noStaticElementInteractions: needed for resizer */}
 					<div
 						className="TableCellResizer__ui absolute"
 						style={resizerStyles.right || undefined}
 						onMouseDown={toggleResize("right")}
 					/>
+					{/** biome-ignore lint/a11y/noStaticElementInteractions: needed for resizer */}
 					<div
 						className="TableCellResizer__ui absolute"
 						style={resizerStyles.bottom || undefined}

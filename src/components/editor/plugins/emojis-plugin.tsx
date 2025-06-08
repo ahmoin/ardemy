@@ -32,7 +32,7 @@ function $findAndTransformEmoji(node: TextNode): null | TextNode {
 
 		if (emojiData !== undefined) {
 			const [emojiStyle, emojiText] = emojiData;
-			let targetNode;
+			let targetNode: TextNode;
 
 			if (i === 0) {
 				[targetNode] = node.splitText(i + 2);
