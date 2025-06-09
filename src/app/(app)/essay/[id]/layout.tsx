@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { getUserDetails } from "@/app/actions";
 import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { stackServerApp } from "@/stack";
 
 // TODO: create custom metadata for essay page
 const title = "Create a project.";
@@ -31,14 +33,18 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	const user = await stackServerApp.getUser();
+	const userProfile = await getUserDetails(user?.id);
+
 	return (
 		<SidebarProvider>
-			<AppSidebar />
+			<AppSidebar userProfile={userProfile} />
+			<SidebarTrigger className="sm:hidden mt-12" />
 			{children}
 		</SidebarProvider>
 	);

@@ -2,6 +2,7 @@
 
 import { ChevronRight, SquareTerminal } from "lucide-react";
 import type * as React from "react";
+import { NavUser } from "@/components/nav-user";
 import { SidebarSiteButton } from "@/components/sidebar-site-button";
 import {
 	Collapsible,
@@ -25,7 +26,13 @@ import {
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export async function AppSidebar({
+	userProfile,
+	...props
+}: React.ComponentProps<typeof Sidebar> & {
+	// biome-ignore lint/suspicious/noExplicitAny: userProfile type has any in it
+	userProfile: Record<string, any> | null;
+}) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
@@ -67,7 +74,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 					</SidebarMenu>
 				</SidebarGroup>
 			</SidebarContent>
-			<SidebarFooter>Footer</SidebarFooter>
+			<SidebarFooter>
+				<SidebarMenu>
+					<SidebarMenuItem>
+						<NavUser userProfile={userProfile} />
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarFooter>
 			<SidebarRail />
 		</Sidebar>
 	);

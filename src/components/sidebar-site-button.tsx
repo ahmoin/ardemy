@@ -18,12 +18,7 @@ export function SidebarSiteButton() {
 					size="lg"
 					className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 				>
-					<Button
-						asChild
-						variant="ghost"
-						size="icon"
-						className="hidden size-8 lg:flex"
-					>
+					<Button asChild variant="ghost" size="icon" className="size-8">
 						<Link href="/">
 							<Icons.logo className="size-5" />
 							<span className="sr-only">{siteConfig.name}</span>
