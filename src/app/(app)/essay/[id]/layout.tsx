@@ -39,11 +39,12 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }) {
 	const user = await stackServerApp.getUser();
+	const app = stackServerApp.urls;
 	const userProfile = await getUserDetails(user?.id);
 
 	return (
 		<SidebarProvider>
-			<AppSidebar userProfile={userProfile} />
+			<AppSidebar userProfile={userProfile} signOutUrl={app.signOut} />
 			<SidebarTrigger className="sm:hidden mt-12" />
 			{children}
 		</SidebarProvider>

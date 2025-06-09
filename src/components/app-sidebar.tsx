@@ -28,10 +28,12 @@ import {
 
 export async function AppSidebar({
 	userProfile,
+	signOutUrl,
 	...props
 }: React.ComponentProps<typeof Sidebar> & {
 	// biome-ignore lint/suspicious/noExplicitAny: userProfile type has any in it
 	userProfile: Record<string, any> | null;
+	signOutUrl: string;
 }) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
@@ -77,7 +79,7 @@ export async function AppSidebar({
 			<SidebarFooter>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<NavUser userProfile={userProfile} />
+						<NavUser userProfile={userProfile} signOutUrl={signOutUrl} />
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarFooter>

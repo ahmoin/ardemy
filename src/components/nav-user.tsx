@@ -8,7 +8,7 @@ import {
 	LogOut,
 	Sparkles,
 } from "lucide-react";
-
+import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
@@ -23,9 +23,11 @@ import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 
 export function NavUser({
 	userProfile,
+	signOutUrl,
 }: {
 	// biome-ignore lint/suspicious/noExplicitAny: userProfile type has any in it
 	userProfile: Record<string, any> | null;
+	signOutUrl: string;
 }) {
 	const { isMobile } = useSidebar();
 
@@ -100,7 +102,7 @@ export function NavUser({
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
 					<LogOut />
-					Log out
+					<Link href={signOutUrl}>Sign out</Link>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
