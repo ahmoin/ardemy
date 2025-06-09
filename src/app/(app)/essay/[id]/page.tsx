@@ -21,9 +21,6 @@ export default async function EssayPage({ params }: EssayPageProps) {
 
 	return (
 		<div className="@container/page flex flex-1 flex-col gap-8 p-6">
-			<h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-				Essay
-			</h1>
 			<EssayEditor />
 		</div>
 	);

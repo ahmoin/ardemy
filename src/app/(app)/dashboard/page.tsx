@@ -1,8 +1,5 @@
 import { ProjectTemplates } from "@/components/project-templates";
 
-export const dynamic = "force-static";
-export const revalidate = false;
-
 export default function DashboardPage() {
 	return (
 		<div className="@container/page flex flex-1 flex-col gap-8 p-6">

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-
-import { Announcement } from "@/components/announcement";
 import { SiteHeader } from "@/components/site-header";
 
-// TODO: create custom metadata for dashboard page
+// TODO: create custom metadata for root page
 const title = "Create a project.";
 const description =
 	"Choose from a variety of templates to kickstart your project. Whether it's an essay, resume, or math project, we have you covered.";
@@ -32,7 +30,7 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function DashboardLayout({
+export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
@@ -40,7 +38,6 @@ export default function DashboardLayout({
 	return (
 		<div>
 			<SiteHeader />
-			<Announcement />
 			{children}
 		</div>
 	);

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
-import { Announcement } from "@/components/announcement";
-import { SiteHeader } from "@/components/site-header";
-
-// TODO: create custom metadata for dashboard page
+// TODO: create custom metadata for essay page
 const title = "Create a project.";
 const description =
 	"Choose from a variety of templates to kickstart your project. Whether it's an essay, resume, or math project, we have you covered.";
@@ -32,16 +31,15 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function DashboardLayout({
+export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
 	return (
-		<div>
-			<SiteHeader />
-			<Announcement />
+		<SidebarProvider>
+			<AppSidebar />
 			{children}
-		</div>
+		</SidebarProvider>
 	);
 }

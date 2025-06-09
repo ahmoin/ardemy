@@ -124,7 +124,8 @@ import { TABLE } from "@/components/editor/transformers/markdown-table-transform
 import { TWEET } from "@/components/editor/transformers/markdown-tweet-transformer";
 import { Separator } from "@/components/ui/separator";
 
-const placeholder = "Press / for commands...";
+// TODO: fix commands const placeholder = "Press / for commands...";
+const placeholder = "Start writing here...";
 const maxLength = 500;
 
 export function Plugins() {
