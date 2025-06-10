@@ -5,8 +5,9 @@ import type {
 	SerializedLexicalNode,
 	SerializedTextNode,
 } from "lexical";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Editor } from "@/components/blocks/editor-x/editor";
+import { useSharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
 
 interface SerializedContainerNode extends SerializedLexicalNode {
 	children: SerializedLexicalNode[];
@@ -82,28 +83,42 @@ function extractTextFromEditorState(
 export function EssayEditor({ ...props }) {
 	const [serializedEditorState, setSerializedEditorState] =
 		useState<SerializedEditorState>(initialValue);
+	const [, setSuggestion] = useSharedAutocompleteContext();
 
-	useEffect(() => {
-		const text = extractTextFromEditorState(serializedEditorState);
-		if (text) {
+	const getAICompletion = useCallback(
+		(text: string) => {
+			if (!text) return;
+
+			const prompt = `Complete the following sentence or paragraph. Only provide the completion, do not repeat the original text: "${text}"`;
+
 			fetch("https://ai.hackclub.com/chat/completions", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					messages: [{ role: "user", content: text }],
+					messages: [{ role: "user", content: prompt }],
 				}),
 			})
 				.then((response) => response.json())
 				.then((data) => {
-					console.log("AI Completion:", data);
+					if (data.choices && data.choices.length > 0) {
+						const completion = data.choices[0].message.content;
+						setSuggestion(completion);
+					}
 				})
 				.catch((error) => {
 					console.error("Error fetching AI completion:", error);
 				});
-		}
-	}, [serializedEditorState]);
+		},
+		[setSuggestion],
+	);
+
+	useEffect(() => {
+		const text = extractTextFromEditorState(serializedEditorState);
+		getAICompletion(text);
+	}, [serializedEditorState, getAICompletion]);
+
 	return (
 		<Editor
 			editorSerializedState={serializedEditorState}
