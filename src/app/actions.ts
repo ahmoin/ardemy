@@ -66,3 +66,32 @@ export async function getProjectFromDatabase(
 		return null;
 	}
 }
+
+export async function getAICompletion(text: string): Promise<string | null> {
+	if (!text) return null;
+
+	const prompt = `Complete the following sentence or paragraph. Only provide the completion, do not repeat the original text: "${text}"`;
+
+	try {
+		const response = await fetch("https://ai.hackclub.com/chat/completions", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				messages: [{ role: "user", content: prompt }],
+			}),
+		});
+
+		const data = await response.json();
+
+		if (data.choices && data.choices.length > 0) {
+			return data.choices[0].message.content;
+		} else {
+			return null;
+		}
+	} catch (error) {
+		console.error("Error fetching AI completion:", error);
+		return null;
+	}
+}

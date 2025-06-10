@@ -16,7 +16,7 @@ import {
 	KEY_TAB_COMMAND,
 } from "lexical";
 import { type JSX, useCallback, useEffect } from "react";
-
+import { getAICompletion } from "@/app/actions";
 import { useSharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
 import {
 	$createAutocompleteNode,
@@ -44,6 +44,7 @@ function $search(selection: null | BaseSelection): [boolean, string] {
 		return [false, ""];
 	}
 	const text = node.getTextContent();
+
 	if (text.length === 0) {
 		return [false, ""];
 	}
@@ -57,43 +58,25 @@ function useAIQuery(): (searchText: string) => SearchPromise {
 			isDismissed = true;
 		};
 
-		const promise: Promise<null | string> = new Promise((resolve) => {
+		const promiseFn = async (searchText: string): Promise<string | null> => {
 			if (!searchText) {
-				resolve(null);
-				return;
+				return null;
 			}
-
-			const prompt = `Complete the following sentence or paragraph. Only provide the completion, do not repeat the original text: "${searchText}"`;
-
-			fetch("https://ai.hackclub.com/chat/completions", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					messages: [{ role: "user", content: prompt }],
-				}),
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					if (!isDismissed) {
-						if (data.choices && data.choices.length > 0) {
-							const completion = data.choices[0].message.content;
-							resolve(completion);
-						} else {
-							resolve(null);
-						}
-					}
-				})
-				.catch((error) => {
-					console.error("Error fetching AI completion:", error);
-					resolve(null); // Resolve with null in case of error to avoid unhandled promise rejection.
-				});
-		});
+			try {
+				const completion = await getAICompletion(searchText);
+				if (!isDismissed) {
+					return completion;
+				}
+				return null;
+			} catch (error) {
+				console.error("Error fetching AI completion:", error);
+				return null;
+			}
+		};
 
 		return {
 			dismiss,
-			promise,
+			promise: promiseFn(searchText),
 		};
 	}, []);
 }
