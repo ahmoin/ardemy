@@ -37,6 +37,8 @@ export const initialValue = {
 export function EssayEditor({ ...props }) {
 	const [editorState, setEditorState] =
 		useState<SerializedEditorState>(initialValue);
+
+	console.log("editorState", editorState);
 	return (
 		<Editor
 			editorSerializedState={editorState}
