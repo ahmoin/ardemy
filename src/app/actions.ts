@@ -70,7 +70,7 @@ export async function getProjectFromDatabase(
 export async function getAICompletion(text: string): Promise<string | null> {
 	if (!text) return null;
 
-	const prompt = `Complete the following sentence or paragraph. Only provide the completion, do not repeat the original text. If the completion should be separated by a space, include it: "${text}"`;
+	const prompt = `Complete the following sentence or paragraph. Only provide the completion, do not repeat the original text: "${text}"`;
 
 	try {
 		const response = await fetch("https://ai.hackclub.com/chat/completions", {
