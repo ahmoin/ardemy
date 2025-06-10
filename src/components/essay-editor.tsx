@@ -5,14 +5,14 @@ import type {
 	SerializedLexicalNode,
 	SerializedTextNode,
 } from "lexical";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Editor } from "@/components/blocks/editor-x/editor";
 
 interface SerializedContainerNode extends SerializedLexicalNode {
 	children: SerializedLexicalNode[];
-	direction?: "ltr" | "rtl" | null; // Made optional as not all LexicalNodes have it
-	format?: string; // Made optional
-	indent?: number; // Made optional
+	direction?: "ltr" | "rtl" | null;
+	format?: string;
+	indent?: number;
 }
 
 function isSerializedTextNode(
@@ -21,9 +21,6 @@ function isSerializedTextNode(
 	return node.type === "text" && "text" in node; // Check for 'text' property existence
 }
 
-/**
- * Type guard to check if a SerializedLexicalNode is a container node (has children).
- */
 function isSerializedContainerNode(
 	node: SerializedLexicalNode,
 ): node is SerializedContainerNode {
@@ -86,7 +83,27 @@ export function EssayEditor({ ...props }) {
 	const [serializedEditorState, setSerializedEditorState] =
 		useState<SerializedEditorState>(initialValue);
 
-	console.log("text", extractTextFromEditorState(serializedEditorState));
+	useEffect(() => {
+		const text = extractTextFromEditorState(serializedEditorState);
+		if (text) {
+			fetch("https://ai.hackclub.com/chat/completions", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					messages: [{ role: "user", content: text }],
+				}),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					console.log("AI Completion:", data);
+				})
+				.catch((error) => {
+					console.error("Error fetching AI completion:", error);
+				});
+		}
+	}, [serializedEditorState]);
 	return (
 		<Editor
 			editorSerializedState={serializedEditorState}
