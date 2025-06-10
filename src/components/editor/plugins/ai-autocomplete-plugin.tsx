@@ -43,18 +43,11 @@ function $search(selection: null | BaseSelection): [boolean, string] {
 	if (!$isTextNode(node) || !node.isSimpleText() || !$isAtNodeEnd(anchor)) {
 		return [false, ""];
 	}
-	const word = [];
 	const text = node.getTextContent();
-	let i = node.getTextContentSize();
-	let c: string;
-	// biome-ignore lint/suspicious/noAssignInExpressions: using for now because of original plugin
-	while (i-- && i >= 0 && (c = text[i]) !== " ") {
-		word.push(c);
-	}
-	if (word.length === 0) {
+	if (text.length === 0) {
 		return [false, ""];
 	}
-	return [true, word.reverse().join("")];
+	return [true, text];
 }
 
 function useAIQuery(): (searchText: string) => SearchPromise {
