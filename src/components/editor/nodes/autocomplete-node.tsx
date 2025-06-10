@@ -11,6 +11,7 @@ import type { JSX } from "react";
 
 import { useSharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
 import { uuid as UUID } from "@/components/editor/plugins/ai-autocomplete-plugin";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 declare global {
 	interface Navigator {
@@ -97,11 +98,8 @@ function AutocompleteComponent({
 	className: EditorThemeClassName;
 }): JSX.Element {
 	const [suggestion] = useSharedAutocompleteContext();
-	const userAgentData = window.navigator.userAgentData;
-	const isMobile =
-		userAgentData !== undefined
-			? userAgentData.mobile
-			: window.innerWidth <= 800 && window.innerHeight <= 600;
+	const isMobile = useIsMobile();
+
 	return (
 		<span className={className} spellCheck="false">
 			{suggestion} {isMobile ? "(SWIPE \u2B95)" : "(TAB)"}
