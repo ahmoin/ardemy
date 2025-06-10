@@ -5,9 +5,15 @@ import { useBasicTypeaheadTriggerMatch } from "@lexical/react/LexicalTypeaheadMe
 import type { TextNode } from "lexical";
 import dynamic from "next/dynamic";
 import { type JSX, useCallback, useMemo, useState } from "react";
-
+import { createPortal } from "react-dom";
 import { useEditorModal } from "@/components/editor/editor-hooks/use-modal";
 import type { ComponentPickerOption } from "@/components/editor/plugins/picker/component-picker-option";
+import {
+	Command,
+	CommandGroup,
+	CommandItem,
+	CommandList,
+} from "@/components/ui/command";
 
 const LexicalTypeaheadMenuPlugin = dynamic(
 	() => import("./default/lexical-typeahead-menu-plugin"),
