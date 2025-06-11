@@ -92,7 +92,8 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		let lastSuggestion: null | string = null;
 		let searchPromise: null | SearchPromise = null;
 
-		function $clearSuggestion() {
+		function $clearSuggestion(reason: string) {
+			console.log("cleared suggestion", reason);
 			const autocompleteNode =
 				autocompleteNodeKey !== null
 					? $getNodeByKey(autocompleteNodeKey)
@@ -143,7 +144,9 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		function $handleAutocompleteNodeTransform(node: AutocompleteNode) {
 			const key = node.getKey();
 			if (node.__uuid === uuid && key !== autocompleteNodeKey) {
-				$clearSuggestion();
+				$clearSuggestion(
+					"(node.__uuid === uuid && key !== autocompleteNodeKey)",
+				);
 			}
 		}
 
@@ -152,13 +155,13 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				const selection = $getSelection();
 				const [hasMatch, match] = $search(selection);
 				if (!hasMatch) {
-					$clearSuggestion();
+					$clearSuggestion("!hasMatch");
 					return;
 				}
 				if (match === lastMatch) {
 					return;
 				}
-				$clearSuggestion();
+				$clearSuggestion("match !== lastMatch");
 				searchPromise = query(match);
 				searchPromise.promise
 					.then((newSuggestion) => {
@@ -184,7 +187,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 			const textNode = $createTextNode(lastSuggestion);
 			autocompleteNode.replace(textNode);
 			textNode.selectNext();
-			$clearSuggestion();
+			$clearSuggestion("$handleAutocompleteIntent");
 			return true;
 		}
 
@@ -206,7 +209,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 
 		function unmountSuggestion() {
 			editor.update(() => {
-				$clearSuggestion();
+				$clearSuggestion("unmountSuggestion");
 			});
 		}
 
