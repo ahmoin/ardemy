@@ -13,10 +13,10 @@ import {
 	KEY_ARROW_RIGHT_COMMAND,
 	KEY_TAB_COMMAND,
 } from "lexical";
-import { type JSX, useCallback, useEffect } from "react";
+import { type JSX, useCallback, useEffect, useRef } from "react";
 import { getAICompletion } from "@/app/actions";
 import { useSharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
-import { useDebounce } from "@/components/editor/editor-hooks/use-debounce"; // Import the useDebounce hook
+import { useDebounce } from "@/components/editor/editor-hooks/use-debounce";
 import {
 	$createAutocompleteNode,
 	AutocompleteNode,
@@ -85,148 +85,150 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 	const [, setSuggestion] = useSharedAutocompleteContext();
 	const query = useAIQuery();
 
-	useEffect(() => {
-		let autocompleteNodeKey: null | NodeKey = null;
-		let lastMatch: null | string = null;
-		let lastSuggestion: null | string = null;
-		let searchPromise: null | SearchPromise = null;
-
-		function $clearSuggestion(reason: string) {
-			console.log("cleared suggestion", reason);
-			const autocompleteNode =
-				autocompleteNodeKey !== null
-					? $getNodeByKey(autocompleteNodeKey)
-					: null;
-			if (autocompleteNode?.isAttached()) {
-				autocompleteNode.remove();
-				autocompleteNodeKey = null;
-			}
-			if (searchPromise !== null) {
-				searchPromise.dismiss();
-				searchPromise = null;
-			}
-			lastMatch = null;
-			lastSuggestion = null;
-			setSuggestion(null);
-		}
-
-		function updateAsyncSuggestion(
-			refSearchPromise: SearchPromise,
-			newSuggestion: null | string,
-		) {
-			if (searchPromise !== refSearchPromise || newSuggestion === null) {
+	const handleUpdate = useCallback(() => {
+		editor.update(() => {
+			const selection = $getSelection();
+			const [hasMatch, match] = $search(selection);
+			if (!hasMatch) {
+				$clearSuggestionRef.current("!hasMatch");
 				return;
 			}
-			editor.update(
-				() => {
-					const selection = $getSelection();
-					const [hasMatch, match] = $search(selection);
-					if (
-						!hasMatch ||
-						match !== lastMatch ||
-						!$isRangeSelection(selection)
-					) {
-						return;
-					}
-					const selectionCopy = selection.clone();
-					const node = $createAutocompleteNode(uuid);
-					autocompleteNodeKey = node.getKey();
-					selection.insertNodes([node]);
-					$setSelection(selectionCopy);
-					lastSuggestion = newSuggestion;
-					setSuggestion(newSuggestion);
-				},
-				{ tag: "history-merge" },
-			);
-		}
-
-		function $handleAutocompleteNodeTransform(node: AutocompleteNode) {
-			const key = node.getKey();
-			if (node.__uuid === uuid && key !== autocompleteNodeKey) {
-				$clearSuggestion(
-					"(node.__uuid === uuid && key !== autocompleteNodeKey)",
-				);
+			if (match === lastMatchRef.current) {
+				return;
 			}
-		}
-
-		// biome-ignore lint/correctness/useHookAtTopLevel: testing for now
-		const debouncedHandleUpdate = useDebounce(
-			() => {
-				editor.update(() => {
-					const selection = $getSelection();
-					const [hasMatch, match] = $search(selection);
-					if (!hasMatch) {
-						$clearSuggestion("!hasMatch");
-						return;
+			$clearSuggestionRef.current("match !== lastMatch");
+			searchPromiseRef.current = query(match);
+			searchPromiseRef.current.promise
+				.then((newSuggestion) => {
+					if (searchPromiseRef.current !== null) {
+						updateAsyncSuggestion(searchPromiseRef.current, newSuggestion);
 					}
-					if (match === lastMatch) {
-						return;
-					}
-					$clearSuggestion("match !== lastMatch");
-					searchPromise = query(match);
-					searchPromise.promise
-						.then((newSuggestion) => {
-							if (searchPromise !== null) {
-								updateAsyncSuggestion(searchPromise, newSuggestion);
-							}
-						})
-						.catch((_e) => {
-							// console.error(e)
-						});
-					lastMatch = match;
+				})
+				.catch((_e) => {
+					// console.error(e)
 				});
-			},
-			200, // Adjust the delay as needed
-		);
+			lastMatchRef.current = match;
+		});
+	}, [editor, query]);
 
-		function $handleAutocompleteIntent(): boolean {
-			if (lastSuggestion === null || autocompleteNodeKey === null) {
-				console.log(
-					"(lastSuggestion === null || autocompleteNodeKey === null)",
-				);
-				return false;
-			}
-			const autocompleteNode = $getNodeByKey(autocompleteNodeKey);
-			if (autocompleteNode === null) {
-				console.log("autocompleteNode === null");
-				return false;
-			}
-			const textNode = $createTextNode(lastSuggestion);
-			console.log(
-				"replacing autocompleteNode with textNode",
-				autocompleteNode,
-				textNode,
-			);
-			autocompleteNode.replace(textNode);
-			textNode.selectNext();
-			$clearSuggestion("$handleAutocompleteIntent");
-			return true;
+	const debouncedHandleUpdate = useDebounce(handleUpdate, 200);
+
+	const lastMatchRef = useRef<string | null>(null);
+	const searchPromiseRef = useRef<SearchPromise | null>(null);
+	const autocompleteNodeKeyRef = useRef<NodeKey | null>(null);
+	const lastSuggestionRef = useRef<string | null>(null);
+
+	const $clearSuggestionRef = useRef((reason: string) => {
+		console.log("cleared suggestion", reason);
+		const autocompleteNode =
+			autocompleteNodeKeyRef.current !== null
+				? $getNodeByKey(autocompleteNodeKeyRef.current)
+				: null;
+		if (autocompleteNode?.isAttached()) {
+			autocompleteNode.remove();
+			autocompleteNodeKeyRef.current = null;
 		}
+		if (searchPromiseRef.current !== null) {
+			searchPromiseRef.current.dismiss();
+			searchPromiseRef.current = null;
+		}
+		lastMatchRef.current = null;
+		lastSuggestionRef.current = null;
+		setSuggestion(null);
+	});
 
-		function $handleKeypressCommand(e: Event) {
-			if ($handleAutocompleteIntent()) {
-				e.preventDefault();
-				return true;
-			}
+	function updateAsyncSuggestion(
+		refSearchPromise: SearchPromise,
+		newSuggestion: null | string,
+	) {
+		if (
+			searchPromiseRef.current !== refSearchPromise ||
+			newSuggestion === null
+		) {
+			return;
+		}
+		editor.update(
+			() => {
+				const selection = $getSelection();
+				const [hasMatch, match] = $search(selection);
+				if (
+					!hasMatch ||
+					match !== lastMatchRef.current ||
+					!$isRangeSelection(selection)
+				) {
+					return;
+				}
+				const selectionCopy = selection.clone();
+				const node = $createAutocompleteNode(uuid);
+				autocompleteNodeKeyRef.current = node.getKey();
+				selection.insertNodes([node]);
+				$setSelection(selectionCopy);
+				lastSuggestionRef.current = newSuggestion;
+				setSuggestion(newSuggestion);
+			},
+			{ tag: "history-merge" },
+		);
+	}
+
+	function $handleAutocompleteNodeTransform(node: AutocompleteNode) {
+		const key = node.getKey();
+		if (node.__uuid === uuid && key !== autocompleteNodeKeyRef.current) {
+			$clearSuggestionRef.current(
+				"(node.__uuid === uuid && key !== autocompleteNodeKey)",
+			);
+		}
+	}
+
+	function $handleAutocompleteIntent(): boolean {
+		if (
+			lastSuggestionRef.current === null ||
+			autocompleteNodeKeyRef.current === null
+		) {
+			console.log("(lastSuggestion === null || autocompleteNodeKey === null)");
 			return false;
 		}
-
-		function handleSwipeRight(_force: number, e: TouchEvent) {
-			editor.update(() => {
-				if ($handleAutocompleteIntent()) {
-					e.preventDefault();
-				}
-			});
+		const autocompleteNode = $getNodeByKey(autocompleteNodeKeyRef.current);
+		if (autocompleteNode === null) {
+			console.log("autocompleteNode === null");
+			return false;
 		}
+		const textNode = $createTextNode(lastSuggestionRef.current);
+		console.log(
+			"replacing autocompleteNode with textNode",
+			autocompleteNode,
+			textNode,
+		);
+		autocompleteNode.replace(textNode);
+		textNode.selectNext();
+		$clearSuggestionRef.current("$handleAutocompleteIntent");
+		return true;
+	}
 
-		function unmountSuggestion() {
-			editor.update(() => {
-				$clearSuggestion("unmountSuggestion");
-			});
+	function $handleKeypressCommand(e: Event) {
+		if ($handleAutocompleteIntent()) {
+			e.preventDefault();
+			return true;
 		}
+		return false;
+	}
 
-		const rootElem = editor.getRootElement();
+	function handleSwipeRight(_force: number, e: TouchEvent) {
+		editor.update(() => {
+			if ($handleAutocompleteIntent()) {
+				e.preventDefault();
+			}
+		});
+	}
 
+	function unmountSuggestion() {
+		editor.update(() => {
+			$clearSuggestionRef.current("unmountSuggestion");
+		});
+	}
+
+	const rootElem = editor.getRootElement();
+
+	useEffect(() => {
 		return mergeRegister(
 			editor.registerNodeTransform(
 				AutocompleteNode,
@@ -248,7 +250,17 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				: []),
 			unmountSuggestion,
 		);
-	}, [editor, query, setSuggestion]); // Make sure to add useDebounce to the dependency array
+	}, [
+		editor,
+		debouncedHandleUpdate,
+		rootElem,
+		// biome-ignore lint/correctness/useExhaustiveDependencies: changing on every re-render is expected
+		$handleAutocompleteNodeTransform,
+		// biome-ignore lint/correctness/useExhaustiveDependencies: changing on every re-render is expected
+		$handleKeypressCommand,
+		// biome-ignore lint/correctness/useExhaustiveDependencies: changing on every re-render is expected
+		$handleKeypressCommand,
+	]);
 
 	return null;
 }
