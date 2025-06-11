@@ -1,5 +1,3 @@
-"use client";
-
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { mergeRegister } from "@lexical/utils";
@@ -18,6 +16,7 @@ import {
 import { type JSX, useCallback, useEffect } from "react";
 import { getAICompletion } from "@/app/actions";
 import { useSharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
+import { useDebounce } from "@/components/editor/editor-hooks/use-debounce"; // Import the useDebounce hook
 import {
 	$createAutocompleteNode,
 	AutocompleteNode,
@@ -150,31 +149,35 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 			}
 		}
 
-		function handleUpdate() {
-			editor.update(() => {
-				const selection = $getSelection();
-				const [hasMatch, match] = $search(selection);
-				if (!hasMatch) {
-					$clearSuggestion("!hasMatch");
-					return;
-				}
-				if (match === lastMatch) {
-					return;
-				}
-				$clearSuggestion("match !== lastMatch");
-				searchPromise = query(match);
-				searchPromise.promise
-					.then((newSuggestion) => {
-						if (searchPromise !== null) {
-							updateAsyncSuggestion(searchPromise, newSuggestion);
-						}
-					})
-					.catch((_e) => {
-						// console.error(e)
-					});
-				lastMatch = match;
-			});
-		}
+		// biome-ignore lint/correctness/useHookAtTopLevel: testing for now
+		const debouncedHandleUpdate = useDebounce(
+			() => {
+				editor.update(() => {
+					const selection = $getSelection();
+					const [hasMatch, match] = $search(selection);
+					if (!hasMatch) {
+						$clearSuggestion("!hasMatch");
+						return;
+					}
+					if (match === lastMatch) {
+						return;
+					}
+					$clearSuggestion("match !== lastMatch");
+					searchPromise = query(match);
+					searchPromise.promise
+						.then((newSuggestion) => {
+							if (searchPromise !== null) {
+								updateAsyncSuggestion(searchPromise, newSuggestion);
+							}
+						})
+						.catch((_e) => {
+							// console.error(e)
+						});
+					lastMatch = match;
+				});
+			},
+			200, // Adjust the delay as needed
+		);
 
 		function $handleAutocompleteIntent(): boolean {
 			if (lastSuggestion === null || autocompleteNodeKey === null) {
@@ -229,7 +232,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				AutocompleteNode,
 				$handleAutocompleteNodeTransform,
 			),
-			editor.registerUpdateListener(handleUpdate),
+			editor.registerUpdateListener(debouncedHandleUpdate),
 			editor.registerCommand(
 				KEY_TAB_COMMAND,
 				$handleKeypressCommand,
@@ -245,7 +248,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				: []),
 			unmountSuggestion,
 		);
-	}, [editor, query, setSuggestion]);
+	}, [editor, query, setSuggestion]); // Make sure to add useDebounce to the dependency array
 
 	return null;
 }
