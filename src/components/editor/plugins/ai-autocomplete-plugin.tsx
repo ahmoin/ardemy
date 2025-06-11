@@ -178,10 +178,14 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 
 		function $handleAutocompleteIntent(): boolean {
 			if (lastSuggestion === null || autocompleteNodeKey === null) {
+				console.log(
+					"(lastSuggestion === null || autocompleteNodeKey === null)",
+				);
 				return false;
 			}
 			const autocompleteNode = $getNodeByKey(autocompleteNodeKey);
 			if (autocompleteNode === null) {
+				console.log("autocompleteNode === null");
 				return false;
 			}
 			const textNode = $createTextNode(lastSuggestion);
