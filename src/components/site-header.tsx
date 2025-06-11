@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getUserDetails } from "@/app/actions";
 import { GitHubLink } from "@/components/github-link";
 import { Icons } from "@/components/icons";
 import { ModeSwitcher } from "@/components/mode-switcher";
+import { NavUser } from "@/components/nav-user";
 import { SiteConfig } from "@/components/site-config";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -30,32 +30,13 @@ export async function SiteHeader() {
 							<span className="sr-only">{siteConfig.name}</span>
 						</Link>
 					</Button>
-					<div className="flex flex-row items-center justify-between w-full sm:w-min sm:justify-normal">
+					<div className="flex flex-row items-center justify-between w-full sm:w-1/2 sm:justify-end">
 						{user ? (
-							<div className="flex items-center justify-end gap-4 w-48">
-								<span className="inline-flex h-8 items-end flex-col">
-									{userProfile?.name && (
-										<span className="text-[14px] text-gray-600 dark:text-gray-300">
-											{`Hello, ${userProfile?.name.split(" ")[0]}`}
-										</span>
-									)}
-									<Link
-										href={app.signOut}
-										className="px-1 underline text-[11px] hover:no-underline"
-									>
-										Sign Out
-									</Link>
-								</span>
-								{userProfile?.raw_json.profile_image_url && (
-									<Image
-										src={userProfile?.raw_json.profile_image_url}
-										alt="User avatar"
-										width={32}
-										height={32}
-										className="rounded-full"
-									/>
-								)}
-							</div>
+							<NavUser
+								userProfile={userProfile}
+								signOutUrl={app.signOut}
+								isSidebar={false}
+							/>
 						) : (
 							<div className="flex items-center gap-3">
 								<Button asChild>

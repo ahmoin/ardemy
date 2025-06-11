@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -19,44 +20,65 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
+import { SidebarMenuButton } from "@/components/ui/sidebar";
 
 export function NavUser({
 	userProfile,
 	signOutUrl,
+	side,
+	isSidebar,
 }: {
 	// biome-ignore lint/suspicious/noExplicitAny: userProfile type has any in it
 	userProfile: Record<string, any> | null;
 	signOutUrl: string;
+	side?: "top" | "bottom" | "left" | "right";
+	isSidebar?: boolean;
 }) {
-	const { isMobile } = useSidebar();
-
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<SidebarMenuButton
-					size="lg"
-					className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-				>
-					<Avatar className="h-8 w-8 rounded-lg">
-						<AvatarImage
-							src={userProfile?.raw_json.profile_image_url}
-							alt={userProfile?.name}
-						/>
-						<AvatarFallback className="rounded-lg">
-							{userProfile?.name.substring(0, 2).toUpperCase() || ""}
-						</AvatarFallback>
-					</Avatar>
-					<div className="grid flex-1 text-left text-sm leading-tight">
-						<span className="truncate font-medium">{userProfile?.name}</span>
-						<span className="truncate text-xs">{userProfile?.email}</span>
-					</div>
-					<ChevronsUpDown className="ml-auto size-4" />
-				</SidebarMenuButton>
+				{isSidebar ? (
+					<SidebarMenuButton
+						size="lg"
+						className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+					>
+						<Avatar className="h-8 w-8 rounded-lg">
+							<AvatarImage
+								src={userProfile?.raw_json.profile_image_url}
+								alt={userProfile?.name}
+							/>
+							<AvatarFallback className="rounded-lg">
+								{userProfile?.name.substring(0, 2).toUpperCase() || ""}
+							</AvatarFallback>
+						</Avatar>
+						<div className="grid flex-1 text-left text-sm leading-tight">
+							<span className="truncate font-medium">{userProfile?.name}</span>
+							<span className="truncate text-xs">{userProfile?.email}</span>
+						</div>
+						<ChevronsUpDown className="ml-auto size-4" />
+					</SidebarMenuButton>
+				) : (
+					<Button variant={"ghost"}>
+						<Avatar className="h-8 w-8 rounded-lg">
+							<AvatarImage
+								src={userProfile?.raw_json.profile_image_url}
+								alt={userProfile?.name}
+							/>
+							<AvatarFallback className="rounded-lg">
+								{userProfile?.name.substring(0, 2).toUpperCase() || ""}
+							</AvatarFallback>
+						</Avatar>
+						<div className="grid flex-1 text-left text-sm leading-tight">
+							<span className="truncate font-medium">{userProfile?.name}</span>
+							<span className="truncate text-xs">{userProfile?.email}</span>
+						</div>
+						<ChevronsUpDown className="ml-auto size-4" />
+					</Button>
+				)}
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
 				className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-				side={isMobile ? "bottom" : "right"}
+				side={side}
 				align="end"
 				sideOffset={4}
 			>

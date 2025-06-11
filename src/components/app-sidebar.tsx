@@ -2,7 +2,7 @@
 
 import { ChevronRight, SquareTerminal } from "lucide-react";
 import type * as React from "react";
-import { NavUser } from "@/components/nav-user";
+import { SidebarNavUser } from "@/components/sidebar-nav-user";
 import { SidebarSiteButton } from "@/components/sidebar-site-button";
 import {
 	Collapsible,
@@ -79,7 +79,11 @@ export async function AppSidebar({
 			<SidebarFooter>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<NavUser userProfile={userProfile} signOutUrl={signOutUrl} />
+						<SidebarNavUser
+							userProfile={userProfile}
+							signOutUrl={signOutUrl}
+							isSidebar
+						/>
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarFooter>
