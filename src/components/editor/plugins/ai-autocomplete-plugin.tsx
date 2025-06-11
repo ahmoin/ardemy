@@ -47,7 +47,11 @@ function $search(selection: null | BaseSelection): [boolean, string] {
 	if (text.length === 0) {
 		return [false, ""];
 	}
-	return [true, text];
+
+	const maxLength = 20;
+	const match = text.length > maxLength ? text.slice(-maxLength) : text;
+
+	return [true, match];
 }
 
 function useAIQuery(): (searchText: string) => SearchPromise {
@@ -143,14 +147,15 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		refSearchPromise: SearchPromise,
 		newSuggestion: null | string,
 	) {
-		console.log("updateAsyncSuggestion - refSearchPromise:", refSearchPromise); // Add this line
+		console.log("updateAsyncSuggestion - refSearchPromise:", refSearchPromise);
 		console.log(
 			"updateAsyncSuggestion - searchPromiseRef.current:",
 			searchPromiseRef.current,
-		); // Add this line
+		);
 		if (
 			searchPromiseRef.current !== refSearchPromise ||
-			newSuggestion === null
+			newSuggestion === null ||
+			newSuggestion.trim() === "" // Add this check
 		) {
 			return;
 		}
@@ -158,17 +163,17 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 			() => {
 				const selection = $getSelection();
 				const [hasMatch, match] = $search(selection);
-				console.log("updateAsyncSuggestion - selection:", selection); // Add this line
-				console.log("updateAsyncSuggestion - $search result:", hasMatch, match); // Add this line
-				console.log("updateAsyncSuggestion - match:", match); // Add this line
+				console.log("updateAsyncSuggestion - selection:", selection);
+				console.log("updateAsyncSuggestion - $search result:", hasMatch, match);
+				console.log("updateAsyncSuggestion - match:", match);
 				console.log(
 					"updateAsyncSuggestion - lastMatchRef.current:",
 					lastMatchRef.current,
-				); // Add this line
+				);
 				console.log(
 					"updateAsyncSuggestion - $isRangeSelection(selection):",
 					$isRangeSelection(selection),
-				); // Add this line
+				);
 				if (
 					!hasMatch ||
 					match !== lastMatchRef.current ||
