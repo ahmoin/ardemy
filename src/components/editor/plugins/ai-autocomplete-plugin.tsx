@@ -89,6 +89,8 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		editor.update(() => {
 			const selection = $getSelection();
 			const [hasMatch, match] = $search(selection);
+			console.log("handleUpdate - selection:", selection);
+			console.log("handleUpdate - $search result:", hasMatch, match);
 			if (!hasMatch) {
 				$clearSuggestionRef.current("!hasMatch");
 				return;
@@ -141,6 +143,11 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		refSearchPromise: SearchPromise,
 		newSuggestion: null | string,
 	) {
+		console.log("updateAsyncSuggestion - refSearchPromise:", refSearchPromise); // Add this line
+		console.log(
+			"updateAsyncSuggestion - searchPromiseRef.current:",
+			searchPromiseRef.current,
+		); // Add this line
 		if (
 			searchPromiseRef.current !== refSearchPromise ||
 			newSuggestion === null
@@ -151,6 +158,17 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 			() => {
 				const selection = $getSelection();
 				const [hasMatch, match] = $search(selection);
+				console.log("updateAsyncSuggestion - selection:", selection); // Add this line
+				console.log("updateAsyncSuggestion - $search result:", hasMatch, match); // Add this line
+				console.log("updateAsyncSuggestion - match:", match); // Add this line
+				console.log(
+					"updateAsyncSuggestion - lastMatchRef.current:",
+					lastMatchRef.current,
+				); // Add this line
+				console.log(
+					"updateAsyncSuggestion - $isRangeSelection(selection):",
+					$isRangeSelection(selection),
+				); // Add this line
 				if (
 					!hasMatch ||
 					match !== lastMatchRef.current ||
