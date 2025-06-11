@@ -1,5 +1,3 @@
-"use client";
-
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { mergeRegister } from "@lexical/utils";
@@ -15,10 +13,10 @@ import {
 	KEY_ARROW_RIGHT_COMMAND,
 	KEY_TAB_COMMAND,
 } from "lexical";
-import { debounce } from "lodash-es";
 import { type JSX, useCallback, useEffect } from "react";
 import { getAICompletion } from "@/app/actions";
 import { useSharedAutocompleteContext } from "@/components/editor/context/shared-autocomplete-context";
+import { useDebounce } from "@/components/editor/editor-hooks/use-debounce"; // Import the useDebounce hook
 import {
 	$createAutocompleteNode,
 	AutocompleteNode,
@@ -152,8 +150,8 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		}
 
 		// biome-ignore lint/correctness/useHookAtTopLevel: testing for now
-		const debouncedHandleUpdate = useCallback(
-			debounce(() => {
+		const debouncedHandleUpdate = useDebounce(
+			() => {
 				editor.update(() => {
 					const selection = $getSelection();
 					const [hasMatch, match] = $search(selection);
@@ -177,8 +175,8 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 						});
 					lastMatch = match;
 				});
-			}, 200),
-			[],
+			},
+			200, // Adjust the delay as needed
 		);
 
 		function $handleAutocompleteIntent(): boolean {
@@ -250,7 +248,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				: []),
 			unmountSuggestion,
 		);
-	}, [editor, query, setSuggestion]);
+	}, [editor, query, setSuggestion]); // Make sure to add useDebounce to the dependency array
 
 	return null;
 }
