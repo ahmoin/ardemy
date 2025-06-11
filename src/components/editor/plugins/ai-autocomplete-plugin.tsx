@@ -229,7 +229,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 	const rootElem = editor.getRootElement();
 
 	useEffect(() => {
-		return mergeRegister(
+		const unmount = mergeRegister(
 			editor.registerNodeTransform(
 				AutocompleteNode,
 				$handleAutocompleteNodeTransform,
@@ -248,19 +248,14 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 			...(rootElem !== null
 				? [addSwipeRightListener(rootElem, handleSwipeRight)]
 				: []),
-			unmountSuggestion,
+			() => unmountSuggestion(),
 		);
-	}, [
-		editor,
-		debouncedHandleUpdate,
-		rootElem,
-		// biome-ignore lint/correctness/useExhaustiveDependencies: changing on every re-render is expected
-		$handleAutocompleteNodeTransform,
-		// biome-ignore lint/correctness/useExhaustiveDependencies: changing on every re-render is expected
-		$handleKeypressCommand,
-		// biome-ignore lint/correctness/useExhaustiveDependencies: changing on every re-render is expected
-		$handleKeypressCommand,
-	]);
+
+		return () => {
+			unmount();
+			unmountSuggestion();
+		};
+	}, [editor, debouncedHandleUpdate, rootElem]);
 
 	return null;
 }
