@@ -189,6 +189,11 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				return false;
 			}
 			const textNode = $createTextNode(lastSuggestion);
+			console.log(
+				"replacing autocompleteNode with textNode",
+				autocompleteNode,
+				textNode,
+			);
 			autocompleteNode.replace(textNode);
 			textNode.selectNext();
 			$clearSuggestion("$handleAutocompleteIntent");
