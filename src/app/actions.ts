@@ -117,3 +117,76 @@ export async function getAICompletion(
 		return null;
 	}
 }
+
+export async function getAIRevisions(
+	text: string,
+	geminiKey?: string | null,
+): Promise<string | null> {
+	if (!text) return null;
+
+	const content = `Revise the following text and return the revisions: "${text}"`;
+
+	if (geminiKey) {
+		const ai = new GoogleGenAI({ apiKey: geminiKey });
+		const response = await ai.models.generateContent({
+			model: "gemini-2.0-flash",
+			contents: content,
+			config: {
+				responseSchema: {
+					type: "object",
+					properties: {
+						revisions: {
+							type: "array",
+							items: {
+								type: "object",
+								properties: {
+									text: {
+										type: "string",
+									},
+									action: {
+										type: "string",
+									},
+								},
+								required: ["text", "action"],
+							},
+						},
+					},
+					required: ["revisions"],
+				},
+			},
+		});
+
+		if (response.text) {
+			return response.text;
+		}
+	}
+
+	try {
+		const response = await fetch("https://ai.hackclub.com/chat/completions", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				messages: [{ role: "user", content: content }],
+			}),
+		});
+
+		const data = await response.json();
+
+		if (data.choices && data.choices.length > 0) {
+			let completion = data.choices[0].message.content;
+
+			if (completion.startsWith('"') && completion.endsWith('"')) {
+				completion = completion.slice(1, -1);
+			}
+
+			return completion;
+		} else {
+			return null;
+		}
+	} catch (error) {
+		console.error("Error fetching AI completion:", error);
+		return null;
+	}
+}

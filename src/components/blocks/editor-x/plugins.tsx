@@ -31,6 +31,7 @@ import { ShareContentPlugin } from "@/components/editor/plugins/actions/share-co
 import { SpeechToTextPlugin } from "@/components/editor/plugins/actions/speech-to-text-plugin";
 import { TreeViewPlugin } from "@/components/editor/plugins/actions/tree-view-plugin";
 import { AIAutocompletePlugin } from "@/components/editor/plugins/ai-autocomplete-plugin";
+import { AIRevisionsPlugin } from "@/components/editor/plugins/ai-revisions-plugin";
 import { AutoLinkPlugin } from "@/components/editor/plugins/auto-link-plugin";
 import { CodeActionMenuPlugin } from "@/components/editor/plugins/code-action-menu-plugin";
 import { CodeHighlightPlugin } from "@/components/editor/plugins/code-highlight-plugin";
@@ -258,6 +259,7 @@ export function Plugins() {
 				<TabFocusPlugin />
 				{/* <AutocompletePlugin /> */}
 				<AIAutocompletePlugin />
+				<AIRevisionsPlugin />
 				<AutoLinkPlugin />
 				<LinkPlugin />
 
