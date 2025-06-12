@@ -70,7 +70,7 @@ export async function getProjectFromDatabase(
 
 export async function getAICompletion(
 	text: string,
-	geminiKey?: string,
+	geminiKey?: string | null,
 ): Promise<string | null> {
 	if (!text) return null;
 

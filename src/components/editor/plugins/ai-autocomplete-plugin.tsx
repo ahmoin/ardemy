@@ -66,7 +66,10 @@ function useAIQuery(): (searchText: string) => SearchPromise {
 				return null;
 			}
 			try {
-				const completion = await getAICompletion(searchText);
+				const completion = await getAICompletion(
+					searchText,
+					localStorage.getItem("geminiKey"),
+				);
 				if (!isDismissed) {
 					return completion;
 				}
