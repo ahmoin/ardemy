@@ -124,36 +124,13 @@ export async function getAIRevisions(
 ): Promise<string | null> {
 	if (!text) return null;
 
-	const content = `Revise the following text and return the revisions: "${text}"`;
+	const content = `Revise the following text and return the revisions in JSON format: "${text}"`;
 
 	if (geminiKey) {
 		const ai = new GoogleGenAI({ apiKey: geminiKey });
 		const response = await ai.models.generateContent({
 			model: "gemini-2.0-flash",
 			contents: content,
-			config: {
-				responseSchema: {
-					type: "object",
-					properties: {
-						revisions: {
-							type: "array",
-							items: {
-								type: "object",
-								properties: {
-									text: {
-										type: "string",
-									},
-									action: {
-										type: "string",
-									},
-								},
-								required: ["text", "action"],
-							},
-						},
-					},
-					required: ["revisions"],
-				},
-			},
 		});
 
 		if (response.text) {
