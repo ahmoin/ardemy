@@ -48,10 +48,7 @@ function $search(selection: null | BaseSelection): [boolean, string] {
 		return [false, ""];
 	}
 
-	const maxLength = 20;
-	const match = text.length > maxLength ? text.slice(-maxLength) : text;
-
-	return [true, match];
+	return [true, text];
 }
 
 function useAIQuery(): (searchText: string) => SearchPromise {
@@ -96,16 +93,14 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		editor.update(() => {
 			const selection = $getSelection();
 			const [hasMatch, match] = $search(selection);
-			console.log("handleUpdate - selection:", selection);
-			console.log("handleUpdate - $search result:", hasMatch, match);
 			if (!hasMatch) {
-				$clearSuggestionRef.current("!hasMatch");
+				$clearSuggestionRef.current();
 				return;
 			}
 			if (match === lastMatchRef.current) {
 				return;
 			}
-			$clearSuggestionRef.current("match !== lastMatch");
+			$clearSuggestionRef.current();
 			searchPromiseRef.current = query(match);
 			searchPromiseRef.current.promise
 				.then((newSuggestion) => {
@@ -127,8 +122,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 	const autocompleteNodeKeyRef = useRef<NodeKey | null>(null);
 	const lastSuggestionRef = useRef<string | null>(null);
 
-	const $clearSuggestionRef = useRef((reason: string) => {
-		console.log("cleared suggestion", reason);
+	const $clearSuggestionRef = useRef(() => {
 		const autocompleteNode =
 			autocompleteNodeKeyRef.current !== null
 				? $getNodeByKey(autocompleteNodeKeyRef.current)
@@ -150,11 +144,6 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		refSearchPromise: SearchPromise,
 		newSuggestion: null | string,
 	) {
-		console.log("updateAsyncSuggestion - refSearchPromise:", refSearchPromise);
-		console.log(
-			"updateAsyncSuggestion - searchPromiseRef.current:",
-			searchPromiseRef.current,
-		);
 		if (
 			searchPromiseRef.current !== refSearchPromise ||
 			newSuggestion === null ||
@@ -166,17 +155,6 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 			() => {
 				const selection = $getSelection();
 				const [hasMatch, match] = $search(selection);
-				console.log("updateAsyncSuggestion - selection:", selection);
-				console.log("updateAsyncSuggestion - $search result:", hasMatch, match);
-				console.log("updateAsyncSuggestion - match:", match);
-				console.log(
-					"updateAsyncSuggestion - lastMatchRef.current:",
-					lastMatchRef.current,
-				);
-				console.log(
-					"updateAsyncSuggestion - $isRangeSelection(selection):",
-					$isRangeSelection(selection),
-				);
 				if (
 					!hasMatch ||
 					match !== lastMatchRef.current ||
@@ -199,9 +177,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 	function $handleAutocompleteNodeTransform(node: AutocompleteNode) {
 		const key = node.getKey();
 		if (node.__uuid === uuid && key !== autocompleteNodeKeyRef.current) {
-			$clearSuggestionRef.current(
-				"(node.__uuid === uuid && key !== autocompleteNodeKey)",
-			);
+			$clearSuggestionRef.current();
 		}
 	}
 
@@ -210,23 +186,16 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 			lastSuggestionRef.current === null ||
 			autocompleteNodeKeyRef.current === null
 		) {
-			console.log("(lastSuggestion === null || autocompleteNodeKey === null)");
 			return false;
 		}
 		const autocompleteNode = $getNodeByKey(autocompleteNodeKeyRef.current);
 		if (autocompleteNode === null) {
-			console.log("autocompleteNode === null");
 			return false;
 		}
 		const textNode = $createTextNode(lastSuggestionRef.current);
-		console.log(
-			"replacing autocompleteNode with textNode",
-			autocompleteNode,
-			textNode,
-		);
 		autocompleteNode.replace(textNode);
 		textNode.selectNext();
-		$clearSuggestionRef.current("$handleAutocompleteIntent");
+		$clearSuggestionRef.current();
 		return true;
 	}
 
@@ -248,7 +217,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 
 	function unmountSuggestion() {
 		editor.update(() => {
-			$clearSuggestionRef.current("unmountSuggestion");
+			$clearSuggestionRef.current();
 		});
 	}
 
