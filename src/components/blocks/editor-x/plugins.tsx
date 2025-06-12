@@ -50,7 +50,6 @@ import { FloatingLinkEditorPlugin } from "@/components/editor/plugins/floating-l
 import { FloatingTextFormatToolbarPlugin } from "@/components/editor/plugins/floating-text-format-plugin";
 import { ImagesPlugin } from "@/components/editor/plugins/images-plugin";
 import { InlineImagePlugin } from "@/components/editor/plugins/inline-image-plugin";
-import { KeywordsPlugin } from "@/components/editor/plugins/keywords-plugin";
 import { LayoutPlugin } from "@/components/editor/plugins/layout-plugin";
 import { LinkPlugin } from "@/components/editor/plugins/link-plugin";
 import { ListMaxIndentLevelPlugin } from "@/components/editor/plugins/list-max-indent-level-plugin";
@@ -217,7 +216,6 @@ export function Plugins() {
 
 				<MentionsPlugin />
 				<PageBreakPlugin />
-				<KeywordsPlugin />
 				<EmojisPlugin />
 				<ImagesPlugin />
 				<InlineImagePlugin />
