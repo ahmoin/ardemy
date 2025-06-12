@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"@excalidraw/excalidraw": "^0.18.0",
+		"@google/genai": "^1.4.0",
 		"@lexical/code": "^0.32.1",
 		"@lexical/file": "^0.32.1",
 		"@lexical/hashtag": "^0.32.1",

@@ -1,5 +1,6 @@
 "use server";
 
+import { GoogleGenAI } from "@google/genai";
 import { neon } from "@neondatabase/serverless";
 import { generateUUID } from "@/lib/utils";
 
@@ -67,10 +68,25 @@ export async function getProjectFromDatabase(
 	}
 }
 
-export async function getAICompletion(text: string): Promise<string | null> {
+export async function getAICompletion(
+	text: string,
+	geminiKey?: string,
+): Promise<string | null> {
 	if (!text) return null;
 
-	const prompt = `Complete the following text, respond. Only provide the completion, do not repeat the original text: "${text}"`;
+	const content = `Complete the following text, respond. Only provide the completion, do not repeat the original text: "${text}"`;
+
+	if (geminiKey) {
+		const ai = new GoogleGenAI({ apiKey: geminiKey });
+		const response = await ai.models.generateContent({
+			model: "gemini-2.0-flash",
+			contents: content,
+		});
+
+		if (response.text) {
+			return response.text;
+		}
+	}
 
 	try {
 		const response = await fetch("https://ai.hackclub.com/chat/completions", {
@@ -79,7 +95,7 @@ export async function getAICompletion(text: string): Promise<string | null> {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				messages: [{ role: "user", content: prompt }],
+				messages: [{ role: "user", content: content }],
 			}),
 		});
 
