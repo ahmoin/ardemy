@@ -13,7 +13,7 @@ export function ProjectTemplates({
 
 	return (
 		<div
-			className={cn("flex flex-row items-center justify-evenly", className)}
+			className={cn("grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-8 xl:flex flex-row items-center justify-evenly", className)}
 			{...props}
 		>
 			<Card>
