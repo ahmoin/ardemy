@@ -161,14 +161,16 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				) {
 					return;
 				}
+				const currentText = selection.getNodes()[0].getTextContent();
+				const lastChar = currentText[currentText.length - 1];
 				const selectionCopy = selection.clone();
 				const node = $createAutocompleteNode(uuid);
 				autocompleteNodeKeyRef.current = node.getKey();
 				selection.insertNodes([node]);
 				$setSelection(selectionCopy);
-				const currentText = selection.getNodes()[0].getTextContent();
-				const lastChar = currentText[currentText.length - 1];
-				console.log("currentText", currentText);
+				console.log("selection", selection);
+				console.log("nodes", selection.getNodes());
+				console.log("selection.getNodes()[0].getTextContent()", currentText);
 				console.log("lastChar", lastChar);
 				if ([".", "?", "!"].includes(lastChar)) {
 					newSuggestion = ` ${newSuggestion}`;
