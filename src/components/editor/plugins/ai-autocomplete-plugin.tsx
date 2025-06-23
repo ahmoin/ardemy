@@ -169,6 +169,8 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				$setSelection(selectionCopy);
 				const currentText = selection.getTextContent();
 				const lastChar = currentText[currentText.length - 1];
+				console.log("currentText", currentText);
+				console.log("lastChar", lastChar);
 				if ([".", "?", "!"].includes(lastChar)) {
 					newSuggestion = ` ${newSuggestion}`;
 				}
