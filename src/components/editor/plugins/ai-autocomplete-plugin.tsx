@@ -147,7 +147,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 		if (
 			searchPromiseRef.current !== refSearchPromise ||
 			newSuggestion === null ||
-			newSuggestion.trim() === "" // Add this check
+			newSuggestion.trim() === ""
 		) {
 			return;
 		}
@@ -167,6 +167,11 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				autocompleteNodeKeyRef.current = node.getKey();
 				selection.insertNodes([node]);
 				$setSelection(selectionCopy);
+				const currentText = selection.getTextContent();
+				const lastChar = currentText[currentText.length - 1];
+				if ([".", "?", "!"].includes(lastChar)) {
+					newSuggestion = ` ${newSuggestion}`;
+				}
 				lastSuggestionRef.current = newSuggestion;
 				setSuggestion(newSuggestion);
 			},
