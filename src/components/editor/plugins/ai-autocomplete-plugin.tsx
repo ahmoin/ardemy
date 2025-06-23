@@ -1,5 +1,4 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $isAtNodeEnd } from "@lexical/selection";
 import { mergeRegister } from "@lexical/utils";
 import type { BaseSelection, NodeKey } from "lexical";
 import {
@@ -38,8 +37,8 @@ function $search(selection: null | BaseSelection): [boolean, string] {
 		return [false, ""];
 	}
 	const node = selection.getNodes()[0];
-	const anchor = selection.anchor;
-	if (!$isTextNode(node) || !node.isSimpleText() || !$isAtNodeEnd(anchor)) {
+	// const anchor = selection.anchor ... || !$isAtNodeEnd(anchor)
+	if (!$isTextNode(node) || !node.isSimpleText()) {
 		return [false, ""];
 	}
 	const text = node.getTextContent();
@@ -167,7 +166,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				autocompleteNodeKeyRef.current = node.getKey();
 				selection.insertNodes([node]);
 				$setSelection(selectionCopy);
-				const currentText = node.getTextContent();
+				const currentText = selection.getNodes()[0].getTextContent();
 				const lastChar = currentText[currentText.length - 1];
 				console.log("currentText", currentText);
 				console.log("lastChar", lastChar);
