@@ -167,7 +167,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				autocompleteNodeKeyRef.current = node.getKey();
 				selection.insertNodes([node]);
 				$setSelection(selectionCopy);
-				const currentText = selection.getTextContent();
+				const currentText = node.getTextContent();
 				const lastChar = currentText[currentText.length - 1];
 				console.log("currentText", currentText);
 				console.log("lastChar", lastChar);
