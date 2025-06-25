@@ -168,7 +168,7 @@ export function AIAutocompletePlugin(): JSX.Element | null {
 				autocompleteNodeKeyRef.current = node.getKey();
 				selection.insertNodes([node]);
 				$setSelection(selectionCopy);
-				if ([".", "?", "!"].includes(lastChar)) {
+				if ([".", "?", "!", ",", ";"].includes(lastChar)) {
 					newSuggestion = ` ${newSuggestion}`;
 				}
 				lastSuggestionRef.current = newSuggestion;

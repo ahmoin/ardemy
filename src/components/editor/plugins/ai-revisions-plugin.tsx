@@ -41,7 +41,7 @@ export function AIRevisionsPlugin() {
 
 			getAIRevisions(textContent, localStorage.getItem("geminiKey"))
 				.then((revision) => {
-					// console.log("AI Revisions:", revision);
+					console.log("AI Revisions:", revision);
 				})
 				.catch((error) => {
 					console.error("Error getting AI revisions:", error);

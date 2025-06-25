@@ -124,7 +124,16 @@ export async function getAIRevisions(
 ): Promise<string | null> {
 	if (!text) return null;
 
-	const content = `Revise the following text and return the revisions in JSON format: "${text}"`;
+	const content = `Revise the following text and return the revisions in JSON format
+[
+  {
+    "action": "replace" | "remove" | "insert",
+    "index": number,     // N-th occurrence of "old" (0-based)
+    "old": "string",     // Required for replace/remove
+    "new": "string"      // Required for replace/insert
+  }
+]
+: "${text}"`;
 
 	if (geminiKey) {
 		const ai = new GoogleGenAI({ apiKey: geminiKey });
@@ -152,13 +161,23 @@ export async function getAIRevisions(
 		const data = await response.json();
 
 		if (data.choices && data.choices.length > 0) {
-			let completion = data.choices[0].message.content;
+			const completion = data.choices[0].message.content;
 
-			if (completion.startsWith('"') && completion.endsWith('"')) {
-				completion = completion.slice(1, -1);
+			let jsonData: unknown;
+			try {
+				const startIndex = completion.indexOf("[");
+				const endIndex = completion.indexOf("]");
+				if (startIndex === -1 || endIndex === -1) {
+					return null;
+				}
+				const jsonStr = completion.substring(startIndex, endIndex + 1);
+				jsonData = JSON.parse(jsonStr);
+			} catch (e) {
+				console.error("Error parsing JSON:", e);
+				return null;
 			}
 
-			return completion;
+			return JSON.stringify(jsonData);
 		} else {
 			return null;
 		}
