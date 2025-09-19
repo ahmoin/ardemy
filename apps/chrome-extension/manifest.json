@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Ardemy",
+    "version": "1.0",
+    "description": "Ardemy",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "*.js",
+                "*.css"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ]
+}
