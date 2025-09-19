@@ -1,7 +1,7 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { Button } from '@workspace/ui/components/button';
-import '@workspace/ui/styles/globals.css';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Button } from "@workspace/ui/components/button";
+import "@workspace/ui/styles/globals.css";
 
 function Popup() {
   return (
@@ -14,11 +14,11 @@ function Popup() {
   );
 }
 
-const root = document.getElementById('root');
+const root = document.getElementById("root");
 if (root) {
   createRoot(root).render(
     <React.StrictMode>
       <Popup />
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 }
